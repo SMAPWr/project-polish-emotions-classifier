@@ -1,2 +1,2 @@
-# Fidelity-Weigted-Learning
-Fidelity-Weigted-Learning. 
+# POLEMIC
+**POL**ish **EM**ot**I**ons **C**lassifier  
