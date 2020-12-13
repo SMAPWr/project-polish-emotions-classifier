@@ -36,6 +36,8 @@ Twitter scraper chrome extension, which can be used to annotate emotions in the 
 
 **Scope**  
 
+![](./SMA-scope.png)
+
 **Data**  
 Dataset annotated by students
 Dataset generated from “słowosieć” (based on emotion annotation)
