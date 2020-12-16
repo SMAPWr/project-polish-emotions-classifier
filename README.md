@@ -39,6 +39,16 @@ weighted avg       0.67      0.72      0.69       843
 docker-compose -f slowosiec/docker-compose.yaml up
 ```
 
+## Datasets
+
+#### "Slowosiec" dataset
+
+Dataset is available in `./data/slowosiec_data.json.gz`. To extract it run (put a correct path base on your location, this path is from the notebook):
+```python
+import pandas as pd
+df1 = pd.read_json('../data/slowosiec_data.json.gz', compression='gzip')
+```
+
 # Phase 1 (18/12/2020)
 
 Derivables:
