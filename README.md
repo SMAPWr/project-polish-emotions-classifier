@@ -33,6 +33,12 @@ Baseline classifier results:
 weighted avg       0.67      0.72      0.69       843
 ```
 
+### Run DB composer (for "slowosiec" Dataset creation only)
+
+```shell
+docker-compose -f slowosiec/docker-compose.yaml up
+```
+
 # Phase 1 (18/12/2020)
 
 Derivables:

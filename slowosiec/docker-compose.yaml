@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+  notebooks:
+    build: .
+    container_name: slowosiec-notebooks
+    ports:
+      - "8002:8888"
+    networks:
+      - base
+    volumes:
+      - type: bind
+        source: ./notebooks
+        target: /home/jovyan/work
+      - type: bind
+        source: ../data
+        target: /home/jovyan/data
+  db:
+    image: mysql:5.7
+    container_name: slowosiec-db
+    restart: always
+    networks:
+      - base
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: 'wordnet_new'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - "3306:3306"
+    volumes:
+      - my-db:/var/lib/mysql
+volumes:
+  my-db:
+    external:
+      name: nlp-word-connections_my-db
+networks:
+  base:
