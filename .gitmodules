@@ -1,0 +1,3 @@
+[submodule "twitter_annotator_user_analysis"]
+	path = twitter_annotator_user_analysis
+	url = https://github.com/burnpiro/twitter_annotator_user_analysis.git

@@ -1,6 +1,14 @@
 # POLEMIC
 **POL**ish **EM**ot**I**ons **C**lassifier
 
+### How to get repo
+
+Because repository is using submodules we have to download those submodules as well while clonning:
+
+```shell
+git clone --recurse-submodules https://github.com/SMAPWr/project-polish-emotions-classifier.git
+```
+
 ### Quickstart
 
 - Run from the main directory:
