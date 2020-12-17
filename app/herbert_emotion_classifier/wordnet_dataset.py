@@ -1,7 +1,6 @@
 from torch.utils.data import Dataset
 from os.path import join, relpath, dirname
-import gzip
-import json
+import pandas as pd
 
 from emotion_dict import emotion_dict
 
@@ -12,13 +11,11 @@ DEFAULT_JSON_PATH = json_path = join(
 
 class EmotionsInTextDataset(Dataset):
     def __init__(self, json_path=DEFAULT_JSON_PATH):
-        self.json_path = json_path
+        df = pd.read_json(json_path, compression="gzip")
 
-        data = self._load_data()
+        self.texts = df["('text',)"].tolist()
 
-        self.texts = list(data["('text',)"].values())
-
-        self.emotions = list(data["('emotions',)"].values())
+        self.emotions = df["('emotions',)"].tolist()
 
         self.emotion_dict = emotion_dict
 
@@ -32,12 +29,3 @@ class EmotionsInTextDataset(Dataset):
 
     def __len__(self):
         return len(self.texts)
-
-    def _load_data(self):
-        with gzip.open(self.json_path, "r") as fin:
-            json_bytes = fin.read()
-
-        json_str = json_bytes.decode("utf-8")
-        data = json.loads(json_str)
-
-        return data

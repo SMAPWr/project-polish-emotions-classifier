@@ -4,7 +4,8 @@ emotion_dict = {
     "radosc": 2.0,
     "smutek": 3,
     "strach": 4.0,
-    "wstret": 5,
-    "zaskoczenie": 6,
-    "zlosc": 7,
+    "wstret": 5.0,
+    "zaskoczenie": 6.0,
+    "zlosc": 7.0,
+    "neutralne": 8.0,
 }

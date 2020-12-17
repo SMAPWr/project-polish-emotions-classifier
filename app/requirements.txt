@@ -3,3 +3,4 @@ more-itertools==8.0.2
 torch==1.7.1
 pytorch_lightning==1.1.1
 transformers==4.0.1
+pandas==1.1.5
