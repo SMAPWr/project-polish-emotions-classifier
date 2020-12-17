@@ -1,13 +1,20 @@
 from torch.optim import Adam, lr_scheduler
 import pytorch_lightning as pl
 from typing import List
+from torch import nn
+from emotion_dict import emotion_dict
+from pytorch_lightning.metrics import Accuracy, Precision, Recall
+import torch
+from transformers import XLMTokenizer, RobertaModel
 
 
 class HerbertEmotionClassifier(pl.LightningModule):
     lr = 1e-3
 
-    def __init__(self, model):
+    def __init__(self):
         super().__init__()
+
+        num_classes = len(emotion_dict)
 
         self.criterion = nn.CrossEntropyLoss()
         self.metrics = {
@@ -16,22 +23,32 @@ class HerbertEmotionClassifier(pl.LightningModule):
             "precision_macro": Precision(num_classes=num_classes, average="macro"),
         }
 
-        tokenizer = XLMTokenizer.from_pretrained(
+        self.tokenizer = XLMTokenizer.from_pretrained(
             "allegro/herbert-klej-cased-tokenizer-v1"
         )
-        model = RobertaModel.from_pretrained("allegro/herbert-klej-cased-v1")
+        self.model = RobertaModel.from_pretrained("allegro/herbert-klej-cased-v1")
+
+        self.classifier = nn.Sequential(
+            nn.Linear(768, 256),
+            nn.Dropout(0.5),
+            nn.ReLU(),
+            nn.Linear(256, 128),
+            nn.Dropout(0.5),
+            nn.ReLU(),
+            nn.Linear(128, num_classes),
+        )
 
     def forward(self, inputs: List[str]):
         encoded_inputs = []
 
         for text in inputs:
             encoded_inputs.append(
-                tokenizer.encode(text, return_tensors="pt").squeeze(dim=0)
+                self.tokenizer.encode(text, return_tensors="pt").squeeze(dim=0)
             )
 
         encoded_input = torch.stack(encoded_inputs, dim=0)
 
-        return self.model(x)
+        return self.model(encoded_input)
 
     def configure_optimizers(self):
         optimizer = Adam(self.parameters(), self.lr)

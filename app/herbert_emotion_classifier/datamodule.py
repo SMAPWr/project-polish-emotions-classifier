@@ -1,8 +1,5 @@
 import pytorch_lightning as pl
 from torch.utils.data import DataLoader
-from os.path import join, dirname, realpath
-
-from .wordnet_dataset import EmotionsInText
 
 
 class ImageSegmentationDatamodule(pl.LightningDataModule):
