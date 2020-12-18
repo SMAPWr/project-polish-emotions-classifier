@@ -2,10 +2,10 @@ from torch.optim import Adam, lr_scheduler
 import pytorch_lightning as pl
 from typing import List
 from torch import nn
-from emotion_dict import emotion_dict
+from .emotion_dict import emotion_dict
 from pytorch_lightning.metrics import Accuracy, Precision, Recall
 import torch
-from transformers import XLMTokenizer, RobertaModel
+from transformers import RobertaModel
 
 
 class HerbertEmotionClassifier(pl.LightningModule):
@@ -23,9 +23,6 @@ class HerbertEmotionClassifier(pl.LightningModule):
             "precision_macro": Precision(num_classes=num_classes, average="macro"),
         }
 
-        self.tokenizer = XLMTokenizer.from_pretrained(
-            "allegro/herbert-klej-cased-tokenizer-v1"
-        )
         self.model = RobertaModel.from_pretrained("allegro/herbert-klej-cased-v1")
 
         self.classifier = nn.Sequential(
@@ -37,18 +34,13 @@ class HerbertEmotionClassifier(pl.LightningModule):
             nn.ReLU(),
             nn.Linear(128, num_classes),
         )
+    
 
-    def forward(self, inputs: List[str]):
-        encoded_inputs = []
-
-        for text in inputs:
-            encoded_inputs.append(
-                self.tokenizer.encode(text, return_tensors="pt").squeeze(dim=0)
-            )
-
-        encoded_input = torch.stack(encoded_inputs, dim=0)
-
-        return self.model(encoded_input)
+    def forward(self, encoded_inputs):
+        with torch.no_grad():
+            outputs = self.model(encoded_inputs)
+        
+        return self.classifier(outputs[1])
 
     def configure_optimizers(self):
         optimizer = Adam(self.parameters(), self.lr)
