@@ -9,14 +9,17 @@ from transformers import RobertaModel
 
 
 class HerbertEmotionClassifier(pl.LightningModule):
-    lr = 1e-3
+    lr = 1e-2
 
     def __init__(self):
         super().__init__()
 
         num_classes = len(emotion_dict)
+        
+        weight = torch.tensor([0.01030928, 0.00552486, 0.00344828, 0.01388889, 0.02222222,
+        0.01204819, 0.02272727, 0.00307692, 0.00055249])
 
-        self.criterion = nn.CrossEntropyLoss()
+        self.criterion = nn.CrossEntropyLoss(weight=weight)
         self.metrics = {
             "accuracy": Accuracy(),
             "recall_macro": Recall(num_classes=num_classes, average="macro"),
@@ -25,15 +28,22 @@ class HerbertEmotionClassifier(pl.LightningModule):
 
         self.model = RobertaModel.from_pretrained("allegro/herbert-klej-cased-v1")
 
+#         self.classifier = nn.Sequential(
+#             nn.Linear(768, 256),
+#             nn.Dropout(0.8),
+#             nn.ReLU(),
+#             nn.Linear(256, 128),
+#             nn.Dropout(0.7),
+#             nn.ReLU(),
+#             nn.Linear(128, num_classes),
+#         )
+
         self.classifier = nn.Sequential(
-            nn.Linear(768, 256),
-            nn.Dropout(0.5),
-            nn.ReLU(),
-            nn.Linear(256, 128),
-            nn.Dropout(0.5),
-            nn.ReLU(),
-            nn.Linear(128, num_classes),
-        )
+                nn.Linear(768, 128),
+                nn.Dropout(0.1),
+                nn.ReLU(),
+                nn.Linear(128, num_classes),
+            )
     
 
     def forward(self, encoded_inputs):
