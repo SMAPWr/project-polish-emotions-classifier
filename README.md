@@ -49,6 +49,10 @@ docker-compose -f slowosiec/docker-compose.yaml up
 
 ## Datasets
 
+Dataset is manually annotated by 35 accounts (31 people) and achieves weighted **Cohen's kappa coefficient** of **0.51**. (Annotation analysis avaiable on [https://github.com/burnpiro/twitter_annotator_user_analysis](https://github.com/burnpiro/twitter_annotator_user_analysis))
+
+![](./images/cohen_heatmap.png)
+
 #### "Slowosiec" dataset
 
 Dataset is available in `./data/slowosiec_data.json.gz`. To extract it run (put a correct path base on your location, this path is from the notebook):
