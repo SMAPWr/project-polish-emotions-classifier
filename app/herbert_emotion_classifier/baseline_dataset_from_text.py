@@ -39,7 +39,7 @@ class EmotionsInTextBaselineDataset(Dataset):
 
         with torch.no_grad():
             outputs = self.model(tokenized_text)
-            sentence_embedding = outputs[1]
+            sentence_embedding = outputs[1].cpu()
 
         return {"text": text, "sentence_embedding": sentence_embedding, "label": label}
 
