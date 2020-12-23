@@ -68,7 +68,9 @@ class HerbertEmotionClassifier(pl.LightningModule):
         return loss
 
     def validation_step(self, batch, batch_idx):
-        x, y = batch
+        x = batch["sentence_embedding"]
+        y = batch["label"]
+
         logits = self.forward(x)
 
         loss = self.criterion(logits, y)
