@@ -25,7 +25,7 @@ class EmotionsInTextBaselineDataset(Dataset):
 
         self.tokenizer = XLMTokenizer.from_pretrained(
             "allegro/herbert-klej-cased-tokenizer-v1"
-        ).to(DEVICE)
+        )
 
         self.model = RobertaModel.from_pretrained("allegro/herbert-klej-cased-v1").to(
             DEVICE
@@ -33,7 +33,7 @@ class EmotionsInTextBaselineDataset(Dataset):
 
     def __getitem__(self, idx):
         text = self.texts[idx]
-        tokenized_text = self.tokenizer.encode(text, return_tensors="pt").squeeze(dim=0)
+        tokenized_text = self.tokenizer.encode(text, return_tensors="pt").to(DEVICE)
 
         label = self.emotions[idx]
 
