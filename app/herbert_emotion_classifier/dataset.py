@@ -1,14 +1,11 @@
 import pickle
 from torch.utils.data import Dataset
-from os.path import join
 
 from .emotion_dict import emotion_dict
 
-DEFAULT_EMBEDDING_PICKLE_PATH = join("..", "..", "data", "wust_train_embeddings.pickle")
 
-
-class EmotionsInTextBaselineDataset(Dataset):
-    def __init__(self, embedding_pickle_path=DEFAULT_EMBEDDING_PICKLE_PATH):
+class EmotionsInTextDataset(Dataset):
+    def __init__(self, embedding_pickle_path):
         with open(embedding_pickle_path, "rb") as handle:
             texts, embeddings, emotions = pickle.load(handle)
 
