@@ -15,7 +15,7 @@ DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 class EmotionsInTextBaselineDataset(Dataset):
-    def __init__(self, json_path):
+    def __init__(self, json_path=DEFAULT_JSON_PATH):
         df = pd.read_json(json_path)
 
         self.texts = df.text.tolist()
