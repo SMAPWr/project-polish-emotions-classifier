@@ -1,8 +1,9 @@
 from torch.utils.data import Dataset
 from os.path import join, relpath, dirname
 import pandas as pd
-
-from emotion_dict import emotion_dict
+from transformers import XLMTokenizer
+import torch
+from .emotion_dict import emotion_dict
 
 DEFAULT_JSON_PATH = json_path = join(
     dirname(relpath(__file__)), "..", "..", "data", "slowosiec_data.json.gz"
@@ -18,14 +19,21 @@ class EmotionsInTextDataset(Dataset):
         self.emotions = df["('emotions',)"].tolist()
 
         self.emotion_dict = emotion_dict
+        
+        self.tokenizer = XLMTokenizer.from_pretrained(
+            "allegro/herbert-klej-cased-tokenizer-v1"
+        )
 
     def __getitem__(self, idx):
-        x = self.texts[idx]
+        text = self.texts[idx]
+        tokenized_text = self.tokenizer.encode(text, return_tensors='pt').squeeze(dim=0)
 
-        y = self.emotions[idx]
-        y = self.emotion_dict[y]
-
-        return x, y
+        label = self.emotions[idx]
+        label = self.emotion_dict[label]
+        
+        result_dict = {"text": text, "tokenized_text": tokenized_text, "label": label}
+        
+        return result_dict
 
     def __len__(self):
         return len(self.texts)

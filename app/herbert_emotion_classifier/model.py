@@ -2,53 +2,55 @@ from torch.optim import Adam, lr_scheduler
 import pytorch_lightning as pl
 from typing import List
 from torch import nn
-from emotion_dict import emotion_dict
+from .emotion_dict import emotion_dict
 from pytorch_lightning.metrics import Accuracy, Precision, Recall
 import torch
-from transformers import XLMTokenizer, RobertaModel
+from transformers import RobertaModel
 
 
 class HerbertEmotionClassifier(pl.LightningModule):
-    lr = 1e-3
+    lr = 1e-2
 
     def __init__(self):
         super().__init__()
 
         num_classes = len(emotion_dict)
+        
+        weight = torch.tensor([0.01030928, 0.00552486, 0.00344828, 0.01388889, 0.02222222,
+        0.01204819, 0.02272727, 0.00307692, 0.00055249])
 
-        self.criterion = nn.CrossEntropyLoss()
+        self.criterion = nn.CrossEntropyLoss(weight=weight)
         self.metrics = {
             "accuracy": Accuracy(),
             "recall_macro": Recall(num_classes=num_classes, average="macro"),
             "precision_macro": Precision(num_classes=num_classes, average="macro"),
         }
 
-        self.tokenizer = XLMTokenizer.from_pretrained(
-            "allegro/herbert-klej-cased-tokenizer-v1"
-        )
         self.model = RobertaModel.from_pretrained("allegro/herbert-klej-cased-v1")
 
+#         self.classifier = nn.Sequential(
+#             nn.Linear(768, 256),
+#             nn.Dropout(0.8),
+#             nn.ReLU(),
+#             nn.Linear(256, 128),
+#             nn.Dropout(0.7),
+#             nn.ReLU(),
+#             nn.Linear(128, num_classes),
+#         )
+
         self.classifier = nn.Sequential(
-            nn.Linear(768, 256),
-            nn.Dropout(0.5),
-            nn.ReLU(),
-            nn.Linear(256, 128),
-            nn.Dropout(0.5),
-            nn.ReLU(),
-            nn.Linear(128, num_classes),
-        )
-
-    def forward(self, inputs: List[str]):
-        encoded_inputs = []
-
-        for text in inputs:
-            encoded_inputs.append(
-                self.tokenizer.encode(text, return_tensors="pt").squeeze(dim=0)
+                nn.Linear(768, 128),
+                nn.Dropout(0.1),
+                nn.ReLU(),
+                nn.Linear(128, num_classes),
             )
+    
 
-        encoded_input = torch.stack(encoded_inputs, dim=0)
-
-        return self.model(encoded_input)
+    def forward(self, encoded_inputs):
+        with torch.no_grad():
+            outputs = self.model(encoded_inputs)
+        
+        return self.classifier(outputs[1])
 
     def configure_optimizers(self):
         optimizer = Adam(self.parameters(), self.lr)
