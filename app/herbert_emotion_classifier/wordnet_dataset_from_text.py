@@ -1,12 +1,14 @@
 from torch.utils.data import Dataset
 import pandas as pd
-from os.path import join
+from os.path import join, dirname, relpath
 
 from .emotion_dict import emotion_dict
 from transformers import RobertaModel, XLMTokenizer
 import torch
 
-DEFAULT_JSON_PATH = join("..", "..", "data", "slowosiec_all_data.json.gz")
+DEFAULT_JSON_PATH = join(
+    dirname(relpath(__file__)), "..", "..", "data", "slowosiec_all_data.json.gz"
+)
 
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
