@@ -5,7 +5,7 @@ from os.path import join
 from .emotion_dict import emotion_dict
 
 DEFAULT_EMBEDDING_PICKLE_PATH = join(
-    "..", "..", "data", "slowosiec_all_data_embeddings.pickle"
+    "..", "data", "slowosiec_all_data_embeddings.pickle"
 )
 
 

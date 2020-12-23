@@ -19,5 +19,6 @@ emotion_dict = {
     "wstret": 5,
     "zaskoczenie": 6,
     "zlosc": 7,
+    "neutralny": 8,
     "neutralne": 8,
 }

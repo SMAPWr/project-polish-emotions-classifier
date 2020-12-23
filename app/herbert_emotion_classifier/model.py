@@ -13,6 +13,7 @@ class HerbertEmotionClassifier(pl.LightningModule):
         super().__init__()
 
         num_classes = len(emotion_dict)
+        num_classes = 9
 
         weight = torch.tensor(
             [
@@ -28,7 +29,7 @@ class HerbertEmotionClassifier(pl.LightningModule):
             ]
         )
 
-        # self.criterion = nn.CrossEntropyLoss(weight=weight)
+#         self.criterion = nn.CrossEntropyLoss(weight=weight)
         self.criterion = nn.CrossEntropyLoss()
         self.metrics = {
             "accuracy": Accuracy(),
@@ -38,10 +39,10 @@ class HerbertEmotionClassifier(pl.LightningModule):
 
         self.classifier = nn.Sequential(
             nn.Linear(768, 256),
-            nn.Dropout(0.8),
+            nn.Dropout(0.5),
             nn.ReLU(),
             nn.Linear(256, 128),
-            nn.Dropout(0.7),
+            nn.Dropout(0.5),
             nn.ReLU(),
             nn.Linear(128, num_classes),
         )
