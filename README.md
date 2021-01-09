@@ -1,5 +1,7 @@
-# POLEMIC
+# POLEMIC 
 **POL**ish **EM**ot**I**ons **C**lassifier
+
+![](./images/128x128.png)
 
 ### How to get repo
 
