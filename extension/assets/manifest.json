@@ -12,14 +12,12 @@
     "scripts": ["./background.js"],
     "persistent": false
   },
-  "browser_action": {
-    "name": "Click to get model data"
-  },
-  "options_ui": {
-    "page": "./options.html"
+  "page_action": {
+    "default_title": "POLEMIC - Click to get model data"
   },
   "permissions": [
+    "background",
     "tabs",
-    "https://*/*"
+    "https://twitter.com/*"
   ]
 }

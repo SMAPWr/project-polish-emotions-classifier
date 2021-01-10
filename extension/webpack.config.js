@@ -4,6 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
+  mode: 'production',
   devServer: {
     contentBase: path.resolve(__dirname, './dist'),
     historyApiFallback: true,
@@ -11,9 +12,7 @@ module.exports = {
     writeFile: true
   },
   entry: {
-    popup: path.resolve(__dirname, "./src/index-popup.js"),
     options: path.resolve(__dirname, "./src/index-options.js"),
-    foreground: path.resolve(__dirname, "./src/index-foreground.js")
   },
   output: {
     filename: '[name].bundle.js',
@@ -46,19 +45,9 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'popup.html',
-      template: 'src/popup.html',
-      chunks: ['popup']
-    }),
-    new HtmlWebpackPlugin({
       filename: 'options.html',
       template: 'src/options.html',
       chunks: ['options']
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'foreground.html',
-      template: 'src/foreground.html',
-      chunks: ['foreground']
     }),
     new CopyWebpackPlugin({
       patterns: [
