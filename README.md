@@ -78,6 +78,10 @@ There is an extension which allows user to extract data from twitter's wall. To 
 
 Currently, extension is published into Chrome Web Store but still pending review.
 
+#### Usage
+
+To use the extension just go to [https://twitter.com](https://twitter/com), login and on click extension icon ![](./images/icon.png). It's going to extract data from your wall and generate `.json` file which can be used as an input for POLEMIC model.
+
 # Phase 1 (18/12/2020)
 
 Derivables:
