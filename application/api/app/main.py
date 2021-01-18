@@ -2,6 +2,7 @@ from typing import Optional, List, Dict
 
 from fastapi import Request, FastAPI
 from fastapi.responses import RedirectResponse
+from fastapi.middleware.cors import CORSMiddleware
 from .dense_classifier import predict_emotion
 from .embedding import get_embedding_for_text
 from copy import deepcopy
@@ -15,6 +16,22 @@ class Item(BaseModel):
 
 app = FastAPI()
 
+origins = [
+    "https://smapwr.github.io",
+    "http://127.0.0.1",
+    "http://127.0.0.1:8002",
+    "http://localhost",
+    "http://localhost:3000",
+    "http://localhost:3001",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def read_root():
