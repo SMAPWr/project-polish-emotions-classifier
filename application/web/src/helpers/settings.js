@@ -8,6 +8,18 @@ import admIcon from "./admiration.svg";
 import expIcon from "./expectancy.svg";
 import surpIcon from "./surprise-face.svg";
 
+export const icons = {
+  neutralny: neutIcon,
+  oczekiwanie: expIcon,
+  podziw: admIcon,
+  radosc: hapIcon,
+  smutek: sadIcon,
+  strach: fearIcon,
+  wstret: disIcon,
+  zaskoczenie: surpIcon,
+  zlosc: angIcon
+}
+
 export const labels = [
   {
     id: "radosc",
