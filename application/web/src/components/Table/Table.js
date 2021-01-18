@@ -8,7 +8,10 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Tweet from "../Tweet/Tweet";
+import Result from "../Result/Result";
+import ResultDialog from "../ResultDialog/ResultDialog";
 
 const useStyles = makeStyles((theme) => ({
   buttons: {
@@ -33,21 +36,27 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
   table: {
-    maxHeight: "60vh",
+    maxHeight: "70vh",
   },
   body: {
     height: "100%",
     overflowY: "auto",
   },
   tweetClass: {
-    padding: 0
+    padding: 0,
+    width: 400
+  },
+  cellResult: {
+    borderRight: "1px solid black",
+    textAlign: "center"
   }
 }));
 
-export default function TweetTable({ tweets = [] }) {
+export default function TweetTable({ tweets = [], isLoading = false }) {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [selectedTweet, setSelectedTweet] = useState(null);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -57,6 +66,16 @@ export default function TweetTable({ tweets = [] }) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const handleClickMore = (id) => {
+    const newSelectedTweet = tweets.find(el => el.id === id)
+    setSelectedTweet(newSelectedTweet)
+  }
+
+  const clearSelectedTweet = () => {
+    setSelectedTweet(null)
+  }
+
   return (
     <React.Fragment>
       <TableContainer className={classes.table}>
@@ -64,9 +83,9 @@ export default function TweetTable({ tweets = [] }) {
           <TableHead>
             <TableRow>
               <TableCell>Tweet</TableCell>
-              <TableCell align="right">Emotion - Model 1</TableCell>
-              <TableCell align="right">Emotion - Model 2</TableCell>
-              <TableCell align="right">Emotion - Model 3</TableCell>
+              <TableCell align="center">Model - Original</TableCell>
+              <TableCell align="center">Model - Słowosieć</TableCell>
+              <TableCell align="center">Model - Brand24</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -74,36 +93,45 @@ export default function TweetTable({ tweets = [] }) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
                 <TableRow key={row.id}>
-                  <TableCell padding="none" size="small" className={classes.tweetClass}>
+                  <TableCell
+                    padding="none"
+                    size="small"
+                    className={classes.tweetClass}
+                  >
                     <Tweet
-
                       tweetContent={row.content}
                       tweetId={"" + row.id.split("/")[3] + ""}
                     />
                   </TableCell>
                   <TableCell
                     align="right"
+                    className={classes.cellResult}
                     style={{
                       color: row.status === "On Time" ? "green" : "red",
                     }}
                   >
-                    Model's API not available
+                    {isLoading && <div>{"Model's API is working"}<br/><CircularProgress color="secondary" /></div>}
+                    {!isLoading && <Result data={row.model1} id={row.id} onClickMore={handleClickMore} />}
                   </TableCell>
                   <TableCell
                     align="right"
+                    className={classes.cellResult}
                     style={{
                       color: row.status === "On Time" ? "green" : "red",
                     }}
                   >
-                    Model's API not available
+                    {isLoading && <div>{"Model's API not available"}<br/><CircularProgress color="secondary" /></div>}
+                    {!isLoading && <Result data={row.model2} id={row.id} onClickMore={handleClickMore} />}
                   </TableCell>
                   <TableCell
                     align="right"
+                    className={classes.cellResult}
                     style={{
                       color: row.status === "On Time" ? "green" : "red",
                     }}
                   >
-                    Model's API not available
+                    {isLoading && <div>{"Model's API not available"}<br/><CircularProgress color="secondary" /></div>}
+                    {!isLoading && <Result data={row.model3} id={row.id} onClickMore={handleClickMore} />}
                   </TableCell>
                 </TableRow>
               ))}
@@ -132,6 +160,7 @@ export default function TweetTable({ tweets = [] }) {
           Please upload file with tweets
         </Typography>
       )}
+      <ResultDialog onClose={clearSelectedTweet} open={selectedTweet != null} tweet={selectedTweet} />
     </React.Fragment>
   );
 }

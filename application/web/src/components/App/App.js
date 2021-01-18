@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState, useReducer, useEffect} from "react";
 import firebase from "firebase/app";
 import "firebase/database";
 import {
@@ -14,6 +14,8 @@ import Form from "../Form/Form";
 import Placeholder from "../Placeholder/Placeholder";
 import DropZone from "../DropZone/DropZone";
 import Table from "../Table/Table";
+import { reducer, actions, initialState } from "../../helpers/twitterReducer";
+import {getTweetsResults} from "../../services/apiService";
 
 const theme = createMuiTheme({
   palette: {
@@ -25,18 +27,31 @@ const theme = createMuiTheme({
 });
 
 function App() {
-  const [tweets, setTweets] = useState([]);
+  console.log(process.env)
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const onTweetsChange = (newTweets = []) => {
-    setTweets(newTweets);
+    dispatch({ type: actions.SET_TWEETS, data: newTweets });
   };
+
+  useEffect(() => {
+    if(state.isRequestPending) {
+      const request = getTweetsResults(state.tweets)
+      request.then(response => {
+        dispatch({
+          type: actions.UPDATE_TWEETS,
+          data: response.data
+        })
+      })
+    }
+  }, [state.isRequestPending])
 
   return (
     <CookiesProvider>
       <ThemeProvider theme={theme}>
         <Layout>
           <DropZone onFileChange={onTweetsChange} />
-          <Table tweets={tweets} />
+          <Table tweets={state.tweets} isLoading={state.isRequestPending} />
         </Layout>
       </ThemeProvider>
     </CookiesProvider>

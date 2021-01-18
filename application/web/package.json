@@ -28,6 +28,7 @@
     "react-cookie": "^4.0.3",
     "react-dom": "^17.0.1",
     "react-dropzone": "^11.2.4",
+    "react-google-charts": "^3.0.15",
     "react-localstorage-hook": "^0.1.0",
     "react-scripts": "4.0.0",
     "react-twitter-embed": "^3.0.3",
