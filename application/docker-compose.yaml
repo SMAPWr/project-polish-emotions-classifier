@@ -1,0 +1,8 @@
+version: '3.7'
+services:
+  embedding_api:
+    build: api/.
+    command: [ uvicorn, app.main:app, --port, "8002" ]
+    network_mode: host
+    ports:
+      - "8002:8002"
