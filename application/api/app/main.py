@@ -4,7 +4,7 @@ from fastapi import Request, FastAPI
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from .dense_classifier import predict_emotion
-from .embedding import get_embedding_for_text
+from .embedding import get_embedding_for_list_of_texts
 from copy import deepcopy
 
 from pydantic import BaseModel
@@ -33,6 +33,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/")
 def read_root():
     return RedirectResponse("/docs")
@@ -40,9 +41,7 @@ def read_root():
 
 @app.get("/status")
 def read_root():
-    return {
-        "status": True
-    }
+    return {"status": True}
 
 
 @app.post("/predictions/")
@@ -76,26 +75,37 @@ async def get_predictions(request: Item):
     body = request.dict()
     print(body)
 
-    response = {
-        "data": [
+    response = {"data": []}
 
-        ]
-    }
-    for item in list(body["tweets"]):
-        sequence_tokens_embedding, sentence_embedding = get_embedding_for_text(item["text"])
+    texts = [item["text"] for item in body["tweets"]]
 
-        emotions_dense_classifier = predict_emotion(sentence_embedding)
+    (
+        sentence_embeddings_tensor,
+        list_of_sequence_embeddings,
+    ) = get_embedding_for_list_of_texts(texts)
 
-        emotions_sequence_classifier = deepcopy(emotions_dense_classifier)
+    list_of_predicted_emotions_in_dense_model = predict_emotion(
+        sentence_embeddings_tensor
+    )
 
-        emotions_teacher_student_classifier = deepcopy(emotions_dense_classifier)
+    list_of_predicted_emotions_in_sequence_model = deepcopy(
+        list_of_predicted_emotions_in_dense_model
+    )
 
-        response["data"].append({
-            "id": item["id"],
-            "text": item["text"],
-            "model1": emotions_dense_classifier,
-            "model2": emotions_sequence_classifier,
-            "model3": emotions_teacher_student_classifier
-        })
+    list_of_predicted_emotions_in_teacher_student_model = deepcopy(
+        list_of_predicted_emotions_in_dense_model
+    )
+
+    for idx, item in enumerate(body["tweets"]):
+
+        response["data"].append(
+            {
+                "id": item["id"],
+                "text": item["text"],
+                "model1": list_of_predicted_emotions_in_dense_model[idx],
+                "model2": list_of_predicted_emotions_in_sequence_model[idx],
+                "model3": list_of_predicted_emotions_in_teacher_student_model[idx],
+            }
+        )
 
     return response

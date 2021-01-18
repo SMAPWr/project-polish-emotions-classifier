@@ -11,11 +11,11 @@ state_dict_path = join(
 )
 
 
-def predict_emotion(sentence_embedding: torch.tensor) -> Dict:
+def predict_emotion(sentence_embeddings_tensor: torch.tensor) -> Dict:
     """
     Function applies emotion classification mode to the given embedding
-    :param sentence_embedding: embedding averaged over all tokens, of size (768,)
-    :return: dictionary with a probability distribution over emotions {"radość: 0.2137, smutek:0.01 ....}
+    :param sentence_embedding: embedding averaged over all tokens, of size (N, 768)
+    :return: list of dictionaries with a probability distribution over emotions [{"radość: 0.2137, smutek:0.01 ....}, ..] of len N
     """
     classification_model = HerbertEmotionClassifier()
     classification_model.load_state_dict(torch.load(state_dict_path), strict=False)
@@ -23,13 +23,17 @@ def predict_emotion(sentence_embedding: torch.tensor) -> Dict:
 
     softmax = Softmax(dim=1)
 
-    predictions = classification_model(sentence_embedding.unsqueeze(0))
-    predictions = softmax(predictions).squeeze(0)
-    predictions = predictions.tolist()
+    predictions = classification_model(sentence_embeddings_tensor)
+    predictions = softmax(predictions).detach()
 
-    predicted_emotions = {}
+    list_of_predicted_emotions = []
 
-    for pred, emotion in zip(predictions, emotion_dict.values()):
-        predicted_emotions[emotion] = pred
+    for pred in predictions:
+        predicted_emotions = {}
 
-    return predicted_emotions
+        for label_num, emotion in zip(pred.tolist(), emotion_dict.values()):
+            predicted_emotions[emotion] = label_num
+
+        list_of_predicted_emotions.append(predicted_emotions)
+
+    return list_of_predicted_emotions
