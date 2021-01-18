@@ -42,10 +42,8 @@ export default function DropZone({onFileChange = () => {}}) {
     reader.onload = () => {
       // Parse CSV file
       const result = JSON.parse(reader.result);
-      console.log(result)
       if (Array.isArray(result) && result[0].id != null) {
         onFileChange(result.filter((item, pos) => {
-          console.log(result.indexOf(item), pos)
           return result.findIndex(el => el.id === item.id) === pos
         }))
       }

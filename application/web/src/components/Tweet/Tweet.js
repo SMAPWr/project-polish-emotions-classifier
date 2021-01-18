@@ -12,7 +12,9 @@ import "./Tweet.css";
 const useStyles = makeStyles((theme) => ({
   card: {
     backgroundColor: "rgba(29, 161, 242, 0.1)",
-    width: "550px",
+    width: "400px",
+    margin: 0,
+    padding: 0,
     minHeight: "100px",
     position: "relative",
   },
