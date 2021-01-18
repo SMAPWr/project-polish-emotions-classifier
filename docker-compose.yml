@@ -11,3 +11,10 @@ services:
       - type: bind
         source: ./data
         target: /home/jovyan/data
+
+  embedding_api:
+    build: application/api/.
+    command: [uvicorn, app.main:app, --port, "8002"]
+    network_mode: host
+    ports:
+      - "8002:8002"
