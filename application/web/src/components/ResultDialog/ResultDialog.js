@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSentiment(topEmotion) {
-  console.log(topEmotion, sortedColumns.slice(0, 4), sortedColumns.slice(4, 6), sortedColumns.slice(6))
   if (sortedColumns.slice(0, 4).includes(topEmotion)) {
     return <span style={{color: 'red'}}>{"Negatywny"}</span>;
   }
@@ -61,7 +60,6 @@ export default function ResultDialog({ onClose, open, tweet }) {
   if (tweet == null) {
     return null;
   }
-  console.log(tweet);
 
   const valuesModel1 = sortedColumns.map((emotion) => [
     emotions[emotion],
@@ -98,8 +96,6 @@ export default function ResultDialog({ onClose, open, tweet }) {
       return acc;
     }, {}
   );
-
-  console.log(scoreSum)
 
   return (
     <Dialog
