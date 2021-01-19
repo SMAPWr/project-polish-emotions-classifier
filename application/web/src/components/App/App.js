@@ -27,7 +27,6 @@ const theme = createMuiTheme({
 });
 
 function App() {
-  console.log(process.env)
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const onTweetsChange = (newTweets = []) => {
@@ -50,7 +49,7 @@ function App() {
     <CookiesProvider>
       <ThemeProvider theme={theme}>
         <Layout>
-          <DropZone onFileChange={onTweetsChange} />
+          <DropZone onFileChange={onTweetsChange} isLoading={state.isRequestPending} />
           <Table tweets={state.tweets} isLoading={state.isRequestPending} />
         </Layout>
       </ThemeProvider>

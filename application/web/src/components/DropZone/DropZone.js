@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
 import { makeStyles } from "@material-ui/core/styles";
+import LoadingAnimation from "./LoadingAnimation";
 
 const useStyles = makeStyles((theme) => ({
   zone: {
@@ -18,6 +19,8 @@ const useStyles = makeStyles((theme) => ({
     color: "#bdbdbd",
     outline: "none",
     transition: "border .24s ease-in-out",
+    position: "relative",
+    minHeight: "110px",
   },
   activeStyle: {
     borderColor: "#2196f3",
@@ -31,7 +34,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DropZone({onFileChange = () => {}}) {
+export default function DropZone({
+  onFileChange = () => {},
+  isLoading = false,
+}) {
   const classes = useStyles();
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
@@ -43,9 +49,11 @@ export default function DropZone({onFileChange = () => {}}) {
       // Parse CSV file
       const result = JSON.parse(reader.result);
       if (Array.isArray(result) && result[0].id != null) {
-        onFileChange(result.filter((item, pos) => {
-          return result.findIndex(el => el.id === item.id) === pos
-        }))
+        onFileChange(
+          result.filter((item, pos) => {
+            return result.findIndex((el) => el.id === item.id) === pos;
+          })
+        );
       }
     };
 
@@ -67,18 +75,23 @@ export default function DropZone({onFileChange = () => {}}) {
   return (
     <div className={style} {...getRootProps()}>
       <input {...getInputProps()} />
-      {isDragActive ? (
-        isDragAccept ? (
-          <p>Drop the files here ...</p>
+      {!isLoading ? (
+        isDragActive ? (
+          isDragAccept ? (
+            <p>Drop the files here ...</p>
+          ) : (
+            <p>
+              You cannot drop this type of file, we only accept{" "}
+              <strong>.json</strong> files
+            </p>
+          )
         ) : (
-          <p>
-            You cannot drop this type of file, we only accept{" "}
-            <strong>.json</strong> files
-          </p>
+          <p>Drag 'n' drop some files here, or click to select files</p>
         )
       ) : (
-        <p>Drag 'n' drop some files here, or click to select files</p>
+        ""
       )}
+      {isLoading && <LoadingAnimation />}
     </div>
   );
 }
