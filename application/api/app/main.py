@@ -3,8 +3,9 @@ from typing import Optional, List, Dict
 from fastapi import Request, FastAPI
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
-from .dense_classifier import predict_emotion
+from .dense_classifier import predict_emotions_with_dense_model
 from .embedding import get_embedding_for_list_of_texts
+from .seq_classifier import predict_emotions_with_seq_model
 from copy import deepcopy
 
 from pydantic import BaseModel
@@ -80,16 +81,16 @@ async def get_predictions(request: Item):
     texts = [item["text"] for item in body["tweets"]]
 
     (
+        seq_embeddings_tensor,
         sentence_embeddings_tensor,
-        list_of_sequence_embeddings,
     ) = get_embedding_for_list_of_texts(texts)
 
-    list_of_predicted_emotions_in_dense_model = predict_emotion(
+    list_of_predicted_emotions_in_dense_model = predict_emotions_with_dense_model(
         sentence_embeddings_tensor
     )
 
-    list_of_predicted_emotions_in_sequence_model = deepcopy(
-        list_of_predicted_emotions_in_dense_model
+    list_of_predicted_emotions_in_sequence_model = predict_emotions_with_seq_model(
+        seq_embeddings_tensor
     )
 
     list_of_predicted_emotions_in_teacher_student_model = deepcopy(
