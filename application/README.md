@@ -7,7 +7,7 @@ Run if from this directory or specify the correct path to `docker-compose.yaml` 
 If you're running API server on a different address please add it into `./web/.env.production` before building.
 
 ```
-docker compose up --build
+docker-compose up --build
 ```
 
 API available at:
