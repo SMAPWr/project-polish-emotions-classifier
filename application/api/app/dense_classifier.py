@@ -11,7 +11,7 @@ state_dict_path = join(
 )
 
 
-def predict_emotion(sentence_embeddings_tensor: torch.tensor) -> Dict:
+def predict_emotions_with_dense_model(sentence_embeddings_tensor: torch.tensor) -> Dict:
     """
     Function applies emotion classification mode to the given embedding
     :param sentence_embedding: embedding averaged over all tokens, of size (N, 768)
