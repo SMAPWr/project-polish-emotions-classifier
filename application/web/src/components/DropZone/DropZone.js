@@ -86,7 +86,7 @@ export default function DropZone({
             </p>
           )
         ) : (
-          <p>Drag 'n' drop some files here, or click to select files</p>
+          <p>Drag 'n' drop some data files here, or click to select files</p>
         )
       ) : (
         ""
