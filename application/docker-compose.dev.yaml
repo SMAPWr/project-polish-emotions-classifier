@@ -1,17 +1,15 @@
 version: '3.7'
 services:
   web:
-    build:
-      context: ./web
-      dockerfile: ProdDockerfile
+    build: ./web
     volumes:
       - type: bind
         source: ./web/src
         target: /app/src
     ports:
-      - 80:80
+      - 3001:3000
     environment:
-      - API_URL=http://127.0.0.1:8002/
+      - CHOKIDAR_USEPOLLING=true
     depends_on:
       - embedding_api
   embedding_api:

@@ -9,7 +9,7 @@ export function getTweetsResults(tweets) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      tweets: tweets.slice(0,10).map(el => ({ "id": el.id, "text": el.content }))
+      tweets: tweets.map(el => ({ "id": el.id, "text": el.content }))
     })
   })
     .then(data => data.json())
