@@ -72,6 +72,18 @@ import pandas as pd
 df1 = pd.read_json('../data/slowosiec_all_data.json.gz', compression='gzip')
 ```
 
+## Standalone App
+
+You can run standalone app by executing:
+
+```shell
+docker-compose -f application/docker-compose.yaml up --build
+```
+
+For more information visit [Wiki Page](https://github.com/SMAPWr/project-polish-emotions-classifier/wiki/Standalone-Application)
+
+![Application Example](./app-example.png)
+
 ## Chrome Extension
 
 There is an extension which allows user to extract data from twitter's wall. To build extension and use dev version please follow instruction on [POLEMIC Extension Wiki Page](https://github.com/SMAPWr/project-polish-emotions-classifier/wiki/Chrome-Extension)

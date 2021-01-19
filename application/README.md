@@ -1,4 +1,6 @@
-# Emotion-API
+# Standalone Application
+
+Run if from this directory or specify the correct path to `docker-compose.yaml` files.
 
 ### Production build
 
