@@ -10,6 +10,7 @@ import { useCookies } from "react-cookie";
 import {annotationKey, skippedKey, userKey} from "../../helpers/settings";
 import useLocalStorage from "react-localstorage-hook";
 import logo from './logo.png';
+import chromeLogo from './chromewebstore.png';
 
 function Copyright({setShowId}) {
   return (
@@ -90,6 +91,11 @@ export default function Layout({ children }) {
             POLEMIC - POLish EMotIon Classifier
           </Typography>
           <span style={{'flex': 1}} />
+          <Typography style={{paddingRight: '10px'}} variant="subtitle1" color="inherit" noWrap>
+            {"Use Chrome Extension "}
+          </Typography>
+          <a target={"_blank"} aria-label={"extension link"} href={"https://chrome.google.com/webstore/detail/polemic/amohljmlgkapaaplajmicnbegfheolae"}>
+            <img alt={"POLEMIC - chrome extension"} className={classes.logo} src={chromeLogo} /></a>
         </Toolbar>
       </AppBar>
       <main className={classes.layout}>
