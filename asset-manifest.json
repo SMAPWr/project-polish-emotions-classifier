@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/project-polish-emotions-classifier/static/css/main.5b476436.chunk.css",
-    "main.js": "/project-polish-emotions-classifier/static/js/main.0343b674.chunk.js",
-    "main.js.map": "/project-polish-emotions-classifier/static/js/main.0343b674.chunk.js.map",
+    "main.js": "/project-polish-emotions-classifier/static/js/main.72451736.chunk.js",
+    "main.js.map": "/project-polish-emotions-classifier/static/js/main.72451736.chunk.js.map",
     "runtime-main.js": "/project-polish-emotions-classifier/static/js/runtime-main.8e001ae3.js",
     "runtime-main.js.map": "/project-polish-emotions-classifier/static/js/runtime-main.8e001ae3.js.map",
     "static/js/2.7883b74f.chunk.js": "/project-polish-emotions-classifier/static/js/2.7883b74f.chunk.js",
@@ -14,6 +14,7 @@
     "static/js/2.7883b74f.chunk.js.LICENSE.txt": "/project-polish-emotions-classifier/static/js/2.7883b74f.chunk.js.LICENSE.txt",
     "static/media/admiration.1c8ea55d.svg": "/project-polish-emotions-classifier/static/media/admiration.1c8ea55d.svg",
     "static/media/anger.8528d165.svg": "/project-polish-emotions-classifier/static/media/anger.8528d165.svg",
+    "static/media/chromewebstore.d3512f0d.png": "/project-polish-emotions-classifier/static/media/chromewebstore.d3512f0d.png",
     "static/media/disgusted.0f4f8fc2.svg": "/project-polish-emotions-classifier/static/media/disgusted.0f4f8fc2.svg",
     "static/media/expectancy.7f622444.svg": "/project-polish-emotions-classifier/static/media/expectancy.7f622444.svg",
     "static/media/fear.2470cbbc.svg": "/project-polish-emotions-classifier/static/media/fear.2470cbbc.svg",
@@ -27,6 +28,6 @@
     "static/js/runtime-main.8e001ae3.js",
     "static/js/2.7883b74f.chunk.js",
     "static/css/main.5b476436.chunk.css",
-    "static/js/main.0343b674.chunk.js"
+    "static/js/main.72451736.chunk.js"
   ]
 }
