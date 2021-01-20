@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -c
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: embedding-api
+  name: embedding-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: embedding-api
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -c
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: embedding-api
+    spec:
+      containers:
+      - args:
+        - uvicorn
+        - app.main:app
+        - --port
+        - "8002"
+        image: embedding-api
+        imagePullPolicy: ""
+        name: embedding-api
+        ports:
+        - containerPort: 8002
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}
