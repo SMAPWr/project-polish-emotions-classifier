@@ -4,10 +4,6 @@ services:
     build:
       context: ./web
       dockerfile: ProdDockerfile
-    volumes:
-      - type: bind
-        source: ./web/src
-        target: /app/src
     ports:
       - 80:80
     environment:
