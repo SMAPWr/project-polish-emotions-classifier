@@ -3,8 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import SnackbarContent from "@material-ui/core/SnackbarContent";
-import Icon from "@material-ui/core/Icon";
+// import SnackbarContent from "@material-ui/core/SnackbarContent";
+// import Icon from "@material-ui/core/Icon";
 import { TwitterTweetEmbed } from "react-twitter-embed";
 
 import "./Tweet.css";
@@ -52,33 +52,26 @@ const useStyles = makeStyles((theme) => ({
 export default function Tweet({ tweetContent = "", tweetId }) {
   const classes = useStyles();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
   const onLoad = () => {
     setLoading(false);
   };
 
-  const onFail = () => {
-    setLoading(false);
-    setError(true);
-  };
-
-  if (error === true) {
-    return (
-      <SnackbarContent
-        className={classes.error}
-        message={
-          <React.Fragment>
-            <span className={classes.errorMessage}>
-              <Icon style={{ marginRight: "10px" }}>error_outline</Icon>
-              Ups... There is a problem with this tweet. Please check if you
-              have Adblock Disabled and if you have then just skip this tweet.
-            </span>
-          </React.Fragment>
-        }
-      />
-    );
-  }
+  // if (error === true) {
+  //   return (
+  //     <SnackbarContent
+  //       className={classes.error}
+  //       message={
+  //         <React.Fragment>
+  //           <span className={classes.errorMessage}>
+  //             <Icon style={{ marginRight: "10px" }}>error_outline</Icon>
+  //             Ups... There is a problem with this tweet. Please check if you
+  //             have Adblock Disabled and if you have then just skip this tweet.
+  //           </span>
+  //         </React.Fragment>
+  //       }
+  //     />
+  //   );
+  // }
 
   return (
     tweetId && (

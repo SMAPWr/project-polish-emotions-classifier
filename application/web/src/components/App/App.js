@@ -1,17 +1,13 @@
-import React, {useState, useReducer, useEffect} from "react";
-import firebase from "firebase/app";
+import React, {useReducer, useEffect} from "react";
 import "firebase/database";
 import {
   createMuiTheme,
-  makeStyles,
   ThemeProvider,
 } from "@material-ui/core/styles";
 import secondary from "@material-ui/core/colors/indigo";
 import { CookiesProvider } from "react-cookie";
 
 import Layout from "../Layout/Layout";
-import Form from "../Form/Form";
-import Placeholder from "../Placeholder/Placeholder";
 import DropZone from "../DropZone/DropZone";
 import Table from "../Table/Table";
 import { reducer, actions, initialState } from "../../helpers/twitterReducer";
@@ -43,7 +39,7 @@ function App() {
         })
       })
     }
-  }, [state.isRequestPending])
+  }, [state.isRequestPending, state.tweets])
 
   return (
     <CookiesProvider>
