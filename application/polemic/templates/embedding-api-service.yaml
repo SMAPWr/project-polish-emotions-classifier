@@ -9,10 +9,12 @@ metadata:
     io.kompose.service: embedding-api
   name: embedding-api
 spec:
+  type: {{ .Values.api.type }}
   ports:
-  - name: "8002"
-    port: 8002
-    targetPort: 8002
+  - name: http
+    port: {{ .Values.api.inPort }}
+    nodePort: {{ .Values.api.outPort }}
+    protocol: TCP
   selector:
     io.kompose.service: embedding-api
 status:

@@ -29,11 +29,20 @@ spec:
         - app.main:app
         - --port
         - "8002"
-        image: embedding-api
-        imagePullPolicy: ""
+        image: {{ .Values.api.image }}
         name: embedding-api
         ports:
-        - containerPort: 8002
+          -  name: http
+             containerPort: {{ .Values.api.inPort }}
+             protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /status
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /status
+            port: http
         resources: {}
       restartPolicy: Always
       serviceAccountName: ""

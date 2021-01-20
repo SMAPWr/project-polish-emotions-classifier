@@ -1,3 +1,9 @@
 dockerImage: "#todo"
 
 API_URL: "todo"
+
+api:
+  image: burnpiro/polemic-api:latest
+  outPort: 30002
+  inPort: 8002
+  type: NodePort
