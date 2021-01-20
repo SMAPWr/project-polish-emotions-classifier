@@ -24,25 +24,20 @@ spec:
         io.kompose.service: embedding-api
     spec:
       containers:
-      - args:
-        - uvicorn
-        - app.main:app
-        - --port
-        - "8002"
-        image: {{ .Values.api.image }}
+      - image: {{ .Values.api.image }}
         name: embedding-api
         ports:
           -  name: http
              containerPort: {{ .Values.api.inPort }}
              protocol: TCP
-        livenessProbe:
-          httpGet:
-            path: /status
-            port: http
-        readinessProbe:
-          httpGet:
-            path: /status
-            port: http
+#        livenessProbe:
+#          httpGet:
+#            path: /status
+#            port: http
+#        readinessProbe:
+#          httpGet:
+#            path: /status
+#            port: http
         resources: {}
       restartPolicy: Always
       serviceAccountName: ""

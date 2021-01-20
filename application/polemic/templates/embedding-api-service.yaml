@@ -13,6 +13,7 @@ spec:
   ports:
   - name: http
     port: {{ .Values.api.inPort }}
+    targetPort: {{ .Values.api.inPort }}
     nodePort: {{ .Values.api.outPort }}
     protocol: TCP
   selector:

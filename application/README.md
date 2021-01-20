@@ -60,6 +60,7 @@ chmod +x setup_cluster.sh
 
 # Setup cluster
 ./setup_cluster.sh
+export KUBECONFIG=$PWD/kubeconfig
 ```
 
 #### If you have `kubeconfig`:
@@ -68,7 +69,7 @@ chmod +x setup_cluster.sh
 export KUBECONFIG=$PWD/kubeconfig
 ```
 
-After that, just check if nodes are avaiable:
+After that, just check if nodes are available:
 
 ```shell
 kubectl get node -o wide

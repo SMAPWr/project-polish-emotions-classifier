@@ -1,4 +1,4 @@
-if [ -n "${$AWS_MASTER+set}" ]; then
+if [ -n "${AWS_MASTER+set}" ]; then
   k3sup install --ip $AWS_MASTER --user $AWS_USER --ssh-key $AWS_PEM_PATH
   export KUBECONFIG=$PWD/kubeconfig # export path to current directory
   kubectl config set-context default
