@@ -40,39 +40,74 @@ Web application available at:
 http://localhost:3001/project-polish-emotions-classifier/
 ```
 
-# Cluster configuration
+### Cluster configuration
+
+If you don't have a `kubectl` or `k3sup` or `helm` already available, follow the instructions below:
+- [kubectl and k3sup installation](#kubectl-and-k3sup-installation)
+- [helm installation](#helm-installation)
+
+
+#### If you don't have `kubeconfig` yet:
+If you have both then edit `./init_vars.sh` and fill it up with your AWS Machines IPs and path to ssh key (`.pem` file from AWS).
 
 ```
-export MASTER_IP=<master public ip>
-export NODE1_IP=<node 1 public ip>
-export NODE2_IP=<node 2 public ip>
+# Add execution right to vars initialization and setup script
+chmod +x init_vars.sh
+chmod +x setup_cluster.sh
 
-## Configure cluster
+# Import vars with your cluster data
+. init_vars.sh
 
-k3sup install --ip $MASTER_IP --user ubuntu --ssh-key testssh.pem
-k3sup join --ip $NODE1_IP --server-ip $MASTER_IP --user ubuntu --ssh-key testssh.pem
-k3sup join --ip $NODE2_IP --server-ip $MASTER_IP --user ubuntu --ssh-key testssh.pem
+# Setup cluster
+./setup_cluster.sh
+```
 
-export KUBECONFIG= path/to/kubeconfig
-kubectl config set-context default
+#### If you have `kubeconfig`:
+
+```shell
+export KUBECONFIG=$PWD/kubeconfig
+```
+
+After that, just check if nodes are avaiable:
+
+```shell
 kubectl get node -o wide
 ```
 
-# Helm:
+### Deploy application:
 
 ```
-helm install emotion-classifier  docker-compose
+helm install polemic polemic
 ```
 
-
-check if everything works fine
+Check if everything works fine (you should be also able to use FE version deployed on GH [https://smapwr.github.io/project-polish-emotions-classifier/](https://smapwr.github.io/project-polish-emotions-classifier/))
 ```
 kubectl get pods
+kubectl get services
 ```
-
 
 to upgrade use
 ```
-helm upgrade emotion-classifier  docker-compose
+helm upgrade polemic polemic
 ```
 
+### Additional resources
+
+##### `kubectl` and `k3sup` installation
+
+Instructions are designed to work on Ubuntu Xenial (18.04), is your version is different please provide the correct repository.
+
+```shell
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubectl
+curl -sfL https://get.k3s.io | sh -
+```
+
+##### `helm` installation
+
+```shell
+chmod +x get_helm.sh
+./get_helm.sh
+```
