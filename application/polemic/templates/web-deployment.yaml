@@ -2,7 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -c
+    kompose.cmd: /snap/kompose/19/kompose-linux-amd64 -f docker-compose.dev.yaml convert
+      -c
     kompose.version: 1.21.0 (992df58d8)
   creationTimestamp: null
   labels:
@@ -17,7 +18,8 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -c
+        kompose.cmd: /snap/kompose/19/kompose-linux-amd64 -f docker-compose.dev.yaml
+          convert -c
         kompose.version: 1.21.0 (992df58d8)
       creationTimestamp: null
       labels:
@@ -25,14 +27,34 @@ spec:
     spec:
       containers:
       - env:
-        - name: API_URL
-          value: http://127.0.0.1:8002/
-        image: web
-        imagePullPolicy: ""
+        - name: CHOKIDAR_USEPOLLING
+          valueFrom:
+            configMapKeyRef:
+              key: CHOKIDAR_USEPOLLING
+              name: configs-web
+        - name: REACT_APP_API_URL
+          valueFrom:
+            configMapKeyRef:
+              key: REACT_APP_API_URL
+              name: configs-web
+        image: {{ .Values.web.image }}
+        imagePullPolicy: {{ .Values.web.pullPolicy }}
         name: web
         ports:
-        - containerPort: 80
+        - containerPort: {{ .Values.web.inPort }}
         resources: {}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.web.inPort }}
+          failureThreshold: 10
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.web.inPort }}
+          initialDelaySeconds: 50
+          periodSeconds: 60
       restartPolicy: Always
       serviceAccountName: ""
       volumes: null

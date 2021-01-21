@@ -4,15 +4,22 @@
 
 replicaCount: 1
 
-dockerImage: "#todo"
-
 API_URL: "todo"
 
 api:
-  image: burnpiro/polemic-api:latest
-  outPort: 30002
+  image: burnpiro/polemic-api:v2
+  outPort: 30008
   inPort: 8008
   type: NodePort
+  pullPolicy: IfNotPresent
+
+web:
+  image: burnpiro/polemic-web:v1
+  outPort: 30001
+  inPort: 3000
+  type: NodePort
+  pullPolicy: IfNotPresent
+
 
 image:
   repository: nginx
@@ -49,19 +56,6 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
-
-ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths: []
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
