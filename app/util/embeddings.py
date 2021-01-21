@@ -1,3 +1,4 @@
+import re
 from typing import Dict, List
 
 import numpy as np
@@ -37,6 +38,8 @@ class Embedder:
             for text in texts
         ]
 
+        texts = map(self._remove_urls_from_text, texts)
+
         for text, label in tqdm(
             zip(texts, labels if labels else [None] * len(texts)),
             desc='Encoding texts'
@@ -75,4 +78,8 @@ class Embedder:
         for emote, emote_text in emote_to_text.items():
             text = text.replace(emote, emote_text)
 
+        return text
+
+    def _remove_urls_from_text(self, text: str) -> str:
+        text = re.sub(r'\S+://\S+', '', text, flags=re.MULTILINE)
         return text
