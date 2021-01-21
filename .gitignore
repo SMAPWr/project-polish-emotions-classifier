@@ -132,3 +132,4 @@ dmypy.json
 *.pem
 /application/api/app/models/bert/
 /application/api/app/models/tokenizer/
+/application/kubeconfig
