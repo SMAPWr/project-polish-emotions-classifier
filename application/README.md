@@ -2,6 +2,31 @@
 
 Run if from this directory or specify the correct path to `docker-compose.yaml` files.
 
+## First download BERT and Tokenizer
+
+You can find them [here](https://drive.google.com/file/d/1l2rCMHXik6BLXiLSPslnXCeq5p5mO_hV/view?usp=sharing)
+
+You can run the following command to get it
+
+```
+gdown https://drive.google.com/uc?id=1l2rCMHXik6BLXiLSPslnXCeq5p5mO_hV
+```
+
+Then unzip the file 
+
+```
+unzip models.zip
+```
+
+And put them in [models directory](/application/api/app/models)
+
+```
+rsync -a ./models /application/api/app/models
+```
+
+
+
+
 ### Production build
 
 If you're running API server on a different address please add it into `./web/.env.production` before building.
