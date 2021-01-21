@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  web:
+    build: ./web
+    volumes:
+      - type: bind
+        source: ./web/src
+        target: /app/src
+    ports:
+      - 3001:3000
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - embedding_api
+  embedding_api:
+    build: api/.
+    command: [ uvicorn, app.main:app, --port, "8002" ]
+    network_mode: host
+    ports:
+      - "8002:8002"

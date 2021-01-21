@@ -1,5 +1,7 @@
-# POLEMIC
+# POLEMIC 
 **POL**ish **EM**ot**I**ons **C**lassifier
+
+![](./images/128x128.png)
 
 ### How to get repo
 
@@ -69,6 +71,31 @@ Dataset is available in `./data/slowosiec_all_data.json.gz`. To extract it run (
 import pandas as pd
 df1 = pd.read_json('../data/slowosiec_all_data.json.gz', compression='gzip')
 ```
+
+## Standalone App
+
+You can run standalone app by executing:
+
+```shell
+docker-compose -f application/docker-compose.yaml up --build
+```
+
+For more information visit [Wiki Page](https://github.com/SMAPWr/project-polish-emotions-classifier/wiki/Standalone-Application)
+
+![Application Example](./app-example.png)
+
+## Chrome Extension
+
+There is an extension which allows user to extract data from twitter's wall. To build extension and use dev version please follow instruction on [POLEMIC Extension Wiki Page](https://github.com/SMAPWr/project-polish-emotions-classifier/wiki/Chrome-Extension)
+
+Currently, extension is published into Chrome Web Store:
+[https://chrome.google.com/webstore/detail/polemic/amohljmlgkapaaplajmicnbegfheolae](https://chrome.google.com/webstore/detail/polemic/amohljmlgkapaaplajmicnbegfheolae)
+
+#### Usage
+
+To use the extension just go to [https://twitter.com](https://twitter/com), login and on click extension icon ![](./images/icon.png). It's going to extract data from your wall and generate `.json` file which can be used as an input for POLEMIC model.
+
+There is an [Instruction Video](https://www.youtube.com/watch?v=3VIkQ7kCEXI) on how to generate input file for model.
 
 # Phase 1 (18/12/2020)
 
