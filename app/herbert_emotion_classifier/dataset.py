@@ -1,5 +1,6 @@
 import pickle
 from torch.utils.data import Dataset
+import torch
 
 from .emotion_dict import emotion_dict
 
@@ -18,8 +19,8 @@ class EmotionsInTextDataset(Dataset):
 
     def __getitem__(self, idx):
         text = self.texts[idx]
-        sentence_embedding = self.sentence_embeddings[idx]
-        label = self.emotions[idx]
+        sentence_embedding = torch.tensor(self.sentence_embeddings[idx])
+        label = torch.tensor(self.emotions[idx])
 
         return {"text": text, "sentence_embedding": sentence_embedding, "label": label}
 

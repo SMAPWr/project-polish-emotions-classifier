@@ -6,7 +6,7 @@ from pytorch_lightning.metrics import Accuracy, Precision, Recall
 import torch
 
 
-class HerbertEmotionClassifier(pl.LightningModule):
+class HerbertEmotionSequenceClassifier(pl.LightningModule):
     lr = 1e-3
 
     def __init__(self):
@@ -28,6 +28,10 @@ class HerbertEmotionClassifier(pl.LightningModule):
                 0.00055249,
             ]
         )
+        
+        rnn_hidden_size = 256
+        
+        self.rnn = nn.GRU(768, rnn_hidden_size, 2, batch_first=True, bidirectional=False, dropout=0.3)
 
         self.criterion = nn.CrossEntropyLoss(weight=weight)
 #         self.criterion = nn.CrossEntropyLoss()
@@ -38,17 +42,24 @@ class HerbertEmotionClassifier(pl.LightningModule):
         }
 
         self.classifier = nn.Sequential(
-            nn.Linear(768, 256),
-            nn.Dropout(0.5),
             nn.ReLU(),
-            nn.Linear(256, 128),
-            nn.Dropout(0.5),
+            nn.Linear(rnn_hidden_size*1, 128),
+            nn.Dropout(0.3),
             nn.ReLU(),
-            nn.Linear(128, num_classes),
+            nn.Linear(128, 64),
+            nn.Dropout(0.3),
+            nn.ReLU(),
+            nn.Linear(64, num_classes),
         )
 
     def forward(self, embedded_inputs):
-        return self.classifier(embedded_inputs)
+        o, h = self.rnn(embedded_inputs)
+        hidden_latent_vector=torch.cat([h[0],h[1]],dim=1)
+        hidden_latent_vector=h[0]
+        
+#         last_output = o[:, -1, :]
+        
+        return self.classifier(hidden_latent_vector)
 
     def configure_optimizers(self):
         optimizer = Adam(self.parameters(), self.lr)
@@ -63,8 +74,13 @@ class HerbertEmotionClassifier(pl.LightningModule):
         logits = self.forward(x)
 
         loss = self.criterion(logits, y)
+        
+        metrics_dict = {
+            f"train/{name}": metric.to(self.device)(logits, y)
+            for name, metric in self.metrics.items()
+        }
 
-        self.log("train/loss", loss)
+        self.log_dict({**{"train/loss": loss}, **metrics_dict})
 
         return loss
 

@@ -33,23 +33,3 @@ def predict(model, dataloader, device):
         true_labels[start:end] = y.detach()
 
     return predictions, true_labels
-
-
-def get_predicton_from_list_of_predictions(list_of_predictios):
-    data = np.array([prediction for prediction in list_of_predictios])
-    axis = 0
-    u, indices = np.unique(data, return_inverse=True)
-    ensamble_pred = u[
-        np.argmax(
-            np.apply_along_axis(
-                np.bincount,
-                axis,
-                indices.reshape(data.shape),
-                None,
-                np.max(indices) + 1,
-            ),
-            axis=axis,
-        )
-    ]
-
-    return ensamble_pred
