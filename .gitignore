@@ -130,3 +130,5 @@ dmypy.json
 .ipynb_checkpoints
 .idea
 *.pem
+/application/api/app/models/bert/
+/application/api/app/models/tokenizer/

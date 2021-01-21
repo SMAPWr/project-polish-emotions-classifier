@@ -1,4 +1,5 @@
 import torch
+from os.path import join, dirname, realpath
 from transformers import XLMTokenizer, RobertaModel
 from typing import List
 
@@ -49,8 +50,8 @@ def get_embedding_for_list_of_texts(
     :param text: Sentence for which u want to get an embedding
     :return: (tensor of embeddings for each token in sentneces, average embedding of a sentences)
     """
-    tokenizer = XLMTokenizer.from_pretrained("allegro/herbert-klej-cased-tokenizer-v1")
-    bert_model = RobertaModel.from_pretrained("allegro/herbert-klej-cased-v1")
+    tokenizer = XLMTokenizer.from_pretrained(join(dirname(realpath(__file__)), "models", "tokenizer"))
+    bert_model = RobertaModel.from_pretrained(join(dirname(realpath(__file__)), "models", "bert"))
 
     list_of_sentence_embeddings = []
     list_of_sequence_embeddings = []

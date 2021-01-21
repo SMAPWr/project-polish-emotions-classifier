@@ -11,6 +11,8 @@ services:
 #    depends_on:
 #      - embedding_api
   embedding_api:
-    image: burnpiro/polemic-api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
     ports:
-      - "8002:8008"
+      - "8008:8008"

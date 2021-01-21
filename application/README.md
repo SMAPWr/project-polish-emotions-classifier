@@ -77,20 +77,32 @@ kubectl get node -o wide
 
 ### Deploy application:
 
+> You might have to setup `REACT_APP_API_URL` in configmap with correct value for your Elastic IP (API server node)
+
 ```
 helm install polemic polemic
 ```
 
-Check if everything works fine (you should be also able to use FE version deployed on GH [https://smapwr.github.io/project-polish-emotions-classifier/](https://smapwr.github.io/project-polish-emotions-classifier/))
+Check if everything works fine 
 ```
 kubectl get pods
 kubectl get services
 ```
+```shell
+NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE     SELECTOR
+kubernetes   ClusterIP   x.x.x.x         <none>        443/TCP          4m55s   <none>
+web          NodePort    x.x.x.x         <none>        3000:30001/TCP   2m58s   io.kompose.service=web
+polemic      NodePort    x.x.x.x         <none>        8008:30008/TCP   2m58s   app.kubernetes.io/instance=polemic,app.kubernetes.io/name=polemic
+```
 
-to upgrade use
+You should be able to access web app at `YOUR_NODE_IP:30001` and API docs at `YOUR_NODE_IP:30008`. Both of them should work correctly if you've setup path in configmap
+
+If any change is necessary (like update of that var) please run:
 ```
 helm upgrade polemic polemic
 ```
+
+Uou should be also able to use FE version deployed on GH [https://smapwr.github.io/project-polish-emotions-classifier/](https://smapwr.github.io/project-polish-emotions-classifier/)
 
 ### Additional resources
 
