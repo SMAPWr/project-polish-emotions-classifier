@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { makeStyles } from "@material-ui/core/styles";
 import LoadingAnimation from "./LoadingAnimation";
@@ -59,7 +59,7 @@ export default function DropZone({
 
     // read file contents
     acceptedFiles.forEach((file) => reader.readAsText(file));
-  }, []);
+  }, [onFileChange]);
   const {
     getRootProps,
     getInputProps,

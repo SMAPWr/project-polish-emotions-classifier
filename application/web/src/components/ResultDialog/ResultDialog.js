@@ -9,7 +9,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Typography from "@material-ui/core/Typography";
 import { Chart } from "react-google-charts";
 import { emotions, emotionColors } from "../../helpers/config";
-import { icons } from "../../helpers/settings";
 
 const sortedColumns = [
   "zlosc",
@@ -82,10 +81,6 @@ export default function ResultDialog({ onClose, open, tweet }) {
 
   const handleClose = () => {
     onClose();
-  };
-
-  const handleListItemClick = (value) => {
-    onClose(value);
   };
 
   const scoreSum = [tweet.model1, tweet.model2, tweet.model3].reduce(
