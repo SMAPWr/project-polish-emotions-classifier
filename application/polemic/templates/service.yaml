@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "polemic.fullname" . }}
+  labels:
+    {{- include "polemic.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.api.type }}
+  ports:
+  - port: {{ .Values.api.inPort }}
+    nodePort: {{ .Values.api.outPort }}
+    targetPort: {{ .Values.api.inPort }}
+    protocol: TCP
+    name: "api"
+  selector:
+    app.kubernetes.io/name: {{ include "polemic.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+status:
+  loadBalancer: {}

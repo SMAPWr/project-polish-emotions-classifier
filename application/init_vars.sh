@@ -1,0 +1,5 @@
+export AWS_MASTER="IP_Master"
+export AWS_WORKER1="IP_Worker1"
+export AWS_WORKER2="IP_Worker2"
+export AWS_PEM_PATH="/absolute/path/to/ssh_key.pem"
+export AWS_USER="ubuntu"
