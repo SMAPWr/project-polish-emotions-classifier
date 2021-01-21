@@ -1,6 +1,16 @@
-tqdm==4.50.2
+# jupyter==1.0.0
 more-itertools==8.0.2
-torch==1.7.1
+# pandas==1.1.5
+pyro-ppl==1.5.1
 pytorch_lightning==1.1.1
+# scikit-learn==0.24.1
+# seaborn==0.11.1
+-f https://download.pytorch.org/whl/torch_stable.html
+torch==1.7.0+cu101
+torchvision==0.8.1+cu101
+# torch==1.7.1+cpu
+# torchvision==0.8.2+cpu
 transformers==4.0.1
-pandas==1.1.5
+tqdm==4.50.2
+
+
