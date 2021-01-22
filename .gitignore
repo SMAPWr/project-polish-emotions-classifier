@@ -129,3 +129,7 @@ dmypy.json
 .pyre/
 .ipynb_checkpoints
 .idea
+*.pem
+/application/api/app/models/bert/
+/application/api/app/models/tokenizer/
+/application/kubeconfig

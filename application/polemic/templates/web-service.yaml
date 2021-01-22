@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: /snap/kompose/19/kompose-linux-amd64 -f docker-compose.dev.yaml convert
+      -c
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: web
+  name: web
+spec:
+  type: {{ .Values.web.type }}
+  ports:
+  - name: "web"
+    port: {{ .Values.web.inPort }}
+    targetPort: {{ .Values.web.inPort }}
+    nodePort: {{ .Values.web.outPort }}
+    protocol: TCP
+  selector:
+    io.kompose.service: web
+status:
+  loadBalancer: {}
