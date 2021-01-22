@@ -32,6 +32,7 @@ class Embedder:
         processed_labels = []
         sentence_embeddings = []
         sequence_embeddings = []
+        texts_len = len(texts)
 
         texts = [
             self._replace_emotes_with_text(text, emote_to_text)
@@ -41,7 +42,7 @@ class Embedder:
         texts = map(self._remove_urls_from_text, texts)
 
         for text, label in tqdm(
-            zip(texts, labels if labels else [None] * len(texts)),
+            zip(texts, labels if labels else [None] * texts_len),
             desc='Encoding texts'
         ):
             try:
