@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "polemic.fullname" . }}
+  labels:
+    {{- include "polemic.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "polemic.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "polemic.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: "{{ .Chart.Name }}-api"
+        image: {{ .Values.api.image }}
+        imagePullPolicy: {{ .Values.api.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.api.inPort }}
+        livenessProbe:
+          httpGet:
+            path: /status
+            port: {{ .Values.api.inPort }}
+          failureThreshold: 10
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /status
+            port: {{ .Values.api.inPort }}
+          initialDelaySeconds: 50
+          periodSeconds: 60
+        resources:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}

@@ -18,9 +18,9 @@ class Item(BaseModel):
 app = FastAPI()
 
 origins = [
+    "*",
     "https://smapwr.github.io",
     "http://127.0.0.1",
-    "http://127.0.0.1:8002",
     "http://localhost",
     "http://localhost:3000",
     "http://localhost:3001",
