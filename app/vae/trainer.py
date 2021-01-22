@@ -25,8 +25,8 @@ def calculate_metrics(
     encoder: OneHotEncoder
 ) -> Metrics:
     y_pred = classifier_fn(x_test)
-    y_pred = encoder.inverse_transform(y_pred.numpy())
-    y_test = encoder.inverse_transform(y_test.numpy())
+    y_pred = encoder.inverse_transform(y_pred.cpu().numpy())
+    y_test = encoder.inverse_transform(y_test.cpu().numpy())
 
     accuracy = metrics.accuracy_score(y_test, y_pred)
     precision = metrics.precision_score(y_test, y_pred, average='macro')
@@ -110,7 +110,8 @@ class Trainer:
                     unsup_loss,
                     aux_sup_loss,
                     aux_unsup_loss,
-                    test_metrics
+                    test_metrics,
+                    verbose
                 )
 
         return fit_stats
@@ -122,7 +123,8 @@ class Trainer:
         unsup_loss: float,
         aux_sup_loss: float,
         aux_unsup_loss: float,
-        test_metrics: Metrics
+        test_metrics: Metrics,
+        verbose: int
     ):
         progress_msg = f'{epoch} epoch:'
         progress_msg += f' loss sup: {sup_loss:.4f} loss unsup: {unsup_loss:.4f}'
@@ -130,12 +132,13 @@ class Trainer:
         if aux_sup_loss is not None and aux_unsup_loss is not None:
             progress_msg += f' loss aux sup: {aux_sup_loss:.4f} aux unsup: {aux_unsup_loss:.4f}'
 
-        progress_msg += f' test acc: {test_metrics.accuracy:.4f},'
-        progress_msg += f' prec: {test_metrics.precision:.4f}'
-        progress_msg += f' recall: {test_metrics.recall:.4f}'
-        progress_msg += f' f1: {test_metrics.f1:.4f}'
+        if verbose > 1:
+            progress_msg += f' test acc: {test_metrics.accuracy:.4f},'
+            progress_msg += f' prec: {test_metrics.precision:.4f}'
+            progress_msg += f' recall: {test_metrics.recall:.4f}'
+            progress_msg += f' f1: {test_metrics.f1:.4f}'
 
-        print(progress_msg)
+        tqdm.write(progress_msg)
 
     def _run_inference_for_epoch(
         self,
