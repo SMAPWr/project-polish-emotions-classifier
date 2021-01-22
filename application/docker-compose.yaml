@@ -1,22 +1,18 @@
 version: '3.7'
 services:
-  web:
-    build:
-      context: ./web
-      dockerfile: ProdDockerfile
-    volumes:
-      - type: bind
-        source: ./web/src
-        target: /app/src
-    ports:
-      - 80:80
-    environment:
-      - API_URL=http://127.0.0.1:8002/
-    depends_on:
-      - embedding_api
+#  web:
+#    build:
+#      context: ./web
+#      dockerfile: ProdDockerfile
+#    ports:
+#      - 80:80
+#    environment:
+#      - API_URL=http://127.0.0.1:8002/
+#    depends_on:
+#      - embedding_api
   embedding_api:
-    build: api/.
-    command: [ uvicorn, app.main:app, --port, "8002" ]
-    network_mode: host
+    build:
+      context: ./api
+      dockerfile: Dockerfile
     ports:
-      - "8002:8002"
+      - "8008:8008"
