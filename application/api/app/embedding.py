@@ -14,8 +14,8 @@ def get_embedding_for_text(text: str) -> (torch.tensor, torch.tensor):
     :param text: Sentence for which u want to get an embedding
     :return: (tensor of embeddings for each token in sentnece, average embedding of a sentence)
     """
-    tokenizer = XLMTokenizer.from_pretrained("allegro/herbert-klej-cased-tokenizer-v1")
-    bert_model = RobertaModel.from_pretrained("allegro/herbert-klej-cased-v1")
+    tokenizer = XLMTokenizer.from_pretrained(join(dirname(realpath(__file__)), "models", "tokenizer"))
+    bert_model = RobertaModel.from_pretrained(join(dirname(realpath(__file__)), "models", "bert"))
 
     encoded_input = tokenizer.encode(text, return_tensors="pt").to(DEVICE)
     outputs = bert_model(encoded_input)
