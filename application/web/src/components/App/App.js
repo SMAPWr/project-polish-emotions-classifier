@@ -55,6 +55,7 @@ function App() {
           setIsDialogOpen(true);
         });
     }
+    // eslint-disable-next-line
   }, [state.isRequestPending]);
 
   return (
