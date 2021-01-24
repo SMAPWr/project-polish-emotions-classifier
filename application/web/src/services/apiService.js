@@ -13,3 +13,13 @@ export function getTweetsResults(tweets) {
   })
     .then(data => data.json())
 }
+
+export function getSampleResults(tweets) {
+  return fetch(`/project-polish-emotions-classifier/sample_preds.json`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(data => data.json())
+}
