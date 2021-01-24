@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import re
 from itertools import starmap
+=======
+>>>>>>> main
 from typing import Dict, List
 
 import numpy as np
@@ -22,7 +25,10 @@ class Embedder:
         )
         self.model = self.model.to(self.device)
 
+<<<<<<< HEAD
     @torch.no_grad()
+=======
+>>>>>>> main
     def calculate_embeddings(
         self,
         texts: List[str],
@@ -34,6 +40,7 @@ class Embedder:
         processed_labels = []
         sentence_embeddings = []
         sequence_embeddings = []
+<<<<<<< HEAD
         texts_len = len(texts)
 
         texts = starmap(
@@ -45,6 +52,16 @@ class Embedder:
 
         for text, label in tqdm(
             zip(texts, labels if labels else [None] * texts_len),
+=======
+
+        texts = [
+            self._replace_emotes_with_text(text, emote_to_text)
+            for text in texts
+        ]
+
+        for text, label in tqdm(
+            zip(texts, labels if labels else [None] * len(texts)),
+>>>>>>> main
             desc='Encoding texts'
         ):
             try:
@@ -52,6 +69,7 @@ class Embedder:
                     text, return_tensors='pt'
                 ).to(self.device)
 
+<<<<<<< HEAD
                 outputs = self.model(tokenized)
 
                 sequence_embedding = outputs[0].squeeze(dim=0).cpu().numpy()
@@ -63,6 +81,20 @@ class Embedder:
                 processed_labels.append(label)
 
             except Exception as ex:
+=======
+                with torch.no_grad():
+                    outputs = self.model(tokenized)
+
+                    sequence_embedding = outputs[0].squeeze(dim=0).cpu().numpy()
+                    sentence_embedding = outputs[1].squeeze(dim=0).cpu().numpy()
+
+                    processed_texts.append(text)
+                    sentence_embeddings.append(sentence_embedding)
+                    sequence_embeddings.append(sequence_embedding)
+                    processed_labels.append(label)
+
+            except Exception:
+>>>>>>> main
                 pass
 
         return {
@@ -81,7 +113,10 @@ class Embedder:
             text = text.replace(emote, emote_text)
 
         return text
+<<<<<<< HEAD
 
     def _remove_urls_from_text(self, text: str) -> str:
         text = re.sub(r'\S+://\S+', '', text, flags=re.MULTILINE)
         return text
+=======
+>>>>>>> main
