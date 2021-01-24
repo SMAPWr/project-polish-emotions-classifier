@@ -52,3 +52,8 @@ class Plot:
 
         df_cm = pd.DataFrame(cm, encoder.classes_, encoder.classes_)
         sns.heatmap(df_cm, annot=True, fmt='d')
+
+    def class_balance(self, labels: List[str]):
+        labels, counts = np.unique(labels, return_counts=True)
+
+        sns.barplot(x=labels, y=counts)
