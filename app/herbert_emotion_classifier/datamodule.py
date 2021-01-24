@@ -14,18 +14,19 @@ def collate_fn(data):
         return padded_seqs, lengths
 
     texts = [x["text"] for x in data]          
-
-    sentence_embeddings = [x["sentence_embedding"] for x in data]
-    sentence_embeddings, _ = merge(sentence_embeddings)
+    
+    sentence_embeddings = torch.stack([x["sentence_embedding"] for x in data])
+    
+    seq_embeddings = [x["seq_embedding"] for x in data]
+    seq_embeddings, _ = merge(seq_embeddings)
     
     labels = torch.tensor([x["label"] for x in data])
     
-    return {"text": texts, "sentence_embedding": sentence_embeddings, "label": labels}
-    
+    return {"text": texts, "sentence_embedding": sentence_embeddings, "seq_embedding": seq_embeddings , "label": labels}
 
 
 class EmotionsInTextDatamodule(pl.LightningDataModule):
-    def __init__(self, batch_size, train_set, val_set, as_sequence=False):
+    def __init__(self, batch_size, train_set, val_set):
         super().__init__()
         self.batch_size = batch_size
 
@@ -33,13 +34,11 @@ class EmotionsInTextDatamodule(pl.LightningDataModule):
 
         self.val_set = val_set
         
-        self.as_sequence = as_sequence
-
     def setup(self, stage=None):
         pass
 
     def train_dataloader(self):
-        collate = collate_fn if self.as_sequence else None
+        collate = collate_fn
         
         return DataLoader(
             self.train_set,
@@ -50,7 +49,7 @@ class EmotionsInTextDatamodule(pl.LightningDataModule):
         )
 
     def val_dataloader(self):
-        collate = collate_fn if self.as_sequence else None
+        collate = collate_fn
         
         return DataLoader(
             self.val_set,

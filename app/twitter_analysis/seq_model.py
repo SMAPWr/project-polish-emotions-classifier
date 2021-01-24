@@ -1,7 +1,7 @@
 from torch.optim import Adam, lr_scheduler
 import pytorch_lightning as pl
 from torch import nn
-from .emotion_dict import emotion_dict
+# from .emotion_dict import emotion_dict
 from pytorch_lightning.metrics import Accuracy, Precision, Recall
 import torch
 
@@ -12,7 +12,7 @@ class HerbertEmotionSequenceClassifier(pl.LightningModule):
     def __init__(self):
         super().__init__()
 
-        num_classes = len(emotion_dict)
+#         num_classes = len(emotion_dict)
         num_classes = 9
 
         weight = torch.tensor(
