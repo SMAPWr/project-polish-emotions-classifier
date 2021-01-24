@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .dense_classifier import predict_emotions_with_dense_model
 from .embedding import get_embedding_for_list_of_texts
 from .seq_classifier import predict_emotions_with_seq_model
+from .conv_classifier import predict_emotions_with_conv_model
 from copy import deepcopy
 
 from pydantic import BaseModel
@@ -93,8 +94,8 @@ async def get_predictions(request: Item):
         seq_embeddings_tensor
     )
 
-    list_of_predicted_emotions_in_teacher_student_model = deepcopy(
-        list_of_predicted_emotions_in_dense_model
+    list_of_predicted_emotions_in_teacher_student_model = (
+        predict_emotions_with_conv_model(sentence_embeddings_tensor)
     )
 
     for idx, item in enumerate(body["tweets"]):
