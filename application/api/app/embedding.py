@@ -1,7 +1,10 @@
+import json
+import re
 import torch
+from itertools import starmap
 from os.path import join, dirname, realpath
 from transformers import XLMTokenizer, RobertaModel
-from typing import List
+from typing import Dict, List
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Running on: {DEVICE}")
@@ -57,6 +60,17 @@ def get_embedding_for_list_of_texts(
         join(dirname(realpath(__file__)), "models", "bert")
     )
 
+    emote_to_text = {}
+    with open(join(dirname(realpath(__file__)), "emote_to_text.json"), encoding='utf8') as file:
+        emote_to_text = json.load(file)
+
+    list_of_texts = starmap(
+        _replace_emotes_with_text,
+        zip(list_of_texts, [emote_to_text] * len(list_of_texts))
+    )
+
+    list_of_texts = map(_remove_urls_from_text, list_of_texts)
+
     list_of_sentence_embeddings = []
     list_of_sequence_embeddings = []
 
@@ -74,3 +88,14 @@ def get_embedding_for_list_of_texts(
     sentence_embeddings_tensor = torch.stack(list_of_sentence_embeddings, dim=0)
 
     return seq_embeddings_tensor, sentence_embeddings_tensor
+
+
+def _replace_emotes_with_text(text: str, emote_to_text: Dict[str, str]) -> str:
+    for emote, emote_text in emote_to_text.items():
+        text = text.replace(emote, emote_text)
+
+    return text
+
+def _remove_urls_from_text(text: str) -> str:
+    text = re.sub(r'\S+://\S+', '', text, flags=re.MULTILINE)
+    return text
