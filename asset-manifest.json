@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/project-polish-emotions-classifier/static/css/main.1cde82ec.chunk.css",
-    "main.js": "/project-polish-emotions-classifier/static/js/main.589b52bb.chunk.js",
-    "main.js.map": "/project-polish-emotions-classifier/static/js/main.589b52bb.chunk.js.map",
+    "main.js": "/project-polish-emotions-classifier/static/js/main.4e9c5d7a.chunk.js",
+    "main.js.map": "/project-polish-emotions-classifier/static/js/main.4e9c5d7a.chunk.js.map",
     "runtime-main.js": "/project-polish-emotions-classifier/static/js/runtime-main.71c7a355.js",
     "runtime-main.js.map": "/project-polish-emotions-classifier/static/js/runtime-main.71c7a355.js.map",
-    "static/js/2.5d1aa861.chunk.js": "/project-polish-emotions-classifier/static/js/2.5d1aa861.chunk.js",
-    "static/js/2.5d1aa861.chunk.js.map": "/project-polish-emotions-classifier/static/js/2.5d1aa861.chunk.js.map",
+    "static/js/2.4c6e2b8d.chunk.js": "/project-polish-emotions-classifier/static/js/2.4c6e2b8d.chunk.js",
+    "static/js/2.4c6e2b8d.chunk.js.map": "/project-polish-emotions-classifier/static/js/2.4c6e2b8d.chunk.js.map",
     "static/js/3.7651252c.chunk.js": "/project-polish-emotions-classifier/static/js/3.7651252c.chunk.js",
     "static/js/3.7651252c.chunk.js.map": "/project-polish-emotions-classifier/static/js/3.7651252c.chunk.js.map",
     "index.html": "/project-polish-emotions-classifier/index.html",
     "static/css/main.1cde82ec.chunk.css.map": "/project-polish-emotions-classifier/static/css/main.1cde82ec.chunk.css.map",
-    "static/js/2.5d1aa861.chunk.js.LICENSE.txt": "/project-polish-emotions-classifier/static/js/2.5d1aa861.chunk.js.LICENSE.txt",
+    "static/js/2.4c6e2b8d.chunk.js.LICENSE.txt": "/project-polish-emotions-classifier/static/js/2.4c6e2b8d.chunk.js.LICENSE.txt",
     "static/media/admiration.1c8ea55d.svg": "/project-polish-emotions-classifier/static/media/admiration.1c8ea55d.svg",
     "static/media/anger.43fe9051.svg": "/project-polish-emotions-classifier/static/media/anger.43fe9051.svg",
     "static/media/chromewebstore.d3512f0d.png": "/project-polish-emotions-classifier/static/media/chromewebstore.d3512f0d.png",
@@ -27,8 +27,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.71c7a355.js",
-    "static/js/2.5d1aa861.chunk.js",
+    "static/js/2.4c6e2b8d.chunk.js",
     "static/css/main.1cde82ec.chunk.css",
-    "static/js/main.589b52bb.chunk.js"
+    "static/js/main.4e9c5d7a.chunk.js"
   ]
 }
