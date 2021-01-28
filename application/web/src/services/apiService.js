@@ -2,7 +2,7 @@ const { REACT_APP_API_URL } = process.env
 
 export function getTweetsResults(tweets) {
 
-  return fetch(`${REACT_APP_API_URL}predictions/`, {
+  return fetch(`${REACT_APP_API_URL}api/predictions/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
