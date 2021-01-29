@@ -201,7 +201,6 @@ export default function DropZone({
         <Button
           variant="outlined"
           color="primary"
-          href="#contained-buttons"
           onClick={onSubmitText}
           endIcon={<Icon>send</Icon>}
         >
