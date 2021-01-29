@@ -3,6 +3,9 @@ import { useDropzone } from "react-dropzone";
 import { makeStyles } from "@material-ui/core/styles";
 import LoadingAnimation from "./LoadingAnimation";
 import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Icon from "@material-ui/core/Icon";
 import dataIcon from "./statistics.png";
 
 const useStyles = makeStyles((theme) => ({
@@ -59,6 +62,21 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     textAlign: "center",
   },
+  customTextContainer: {
+    display: "flex",
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "stretch",
+    justifyContent: "stretch",
+  },
+  wrapper: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "stretch",
+  },
+  customTextInput: {
+    flex: 1,
+  },
 }));
 
 export default function DropZone({
@@ -98,6 +116,23 @@ export default function DropZone({
     isDragAccept,
     isDragReject,
   } = useDropzone({ accept: "application/json", onDrop });
+  const [value, setValue] = React.useState("");
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
+  const onSubmitText = () => {
+    onFileChange([
+      {
+        date: "2021-01-16T21:18:58.000Z",
+        content: value,
+        id: "123456",
+        author: "Me",
+        source: "customText",
+      },
+    ]);
+  };
 
   const onLinkClick = () => {
     onAskForSampleData();
@@ -110,43 +145,68 @@ export default function DropZone({
   }`;
 
   return (
-    <div className={classes.rowDisplay}>
-      <div className={style} {...getRootProps()}>
-        <input {...getInputProps()} />
-        {!isLoading ? (
-          isDragActive ? (
-            isDragAccept ? (
-              <p className={classes.fullInfo}>Drop the files here ...</p>
+    <div className={classes.wrapper}>
+      <div className={classes.rowDisplay}>
+        <div className={style} {...getRootProps()}>
+          <input {...getInputProps()} />
+          {!isLoading ? (
+            isDragActive ? (
+              isDragAccept ? (
+                <p className={classes.fullInfo}>Drop the files here ...</p>
+              ) : (
+                <p className={classes.fullInfo}>
+                  You cannot drop this type of file, we only accept{" "}
+                  <strong>.json</strong> files
+                </p>
+              )
             ) : (
               <p className={classes.fullInfo}>
-                You cannot drop this type of file, we only accept{" "}
-                <strong>.json</strong> files
+                Drag 'n' drop some data files here, or click to select files
               </p>
             )
           ) : (
-            <p className={classes.fullInfo}>
-              Drag 'n' drop some data files here, or click to select files
-            </p>
-          )
-        ) : (
-          ""
-        )}
-        {isLoading && <LoadingAnimation />}
+            ""
+          )}
+          {isLoading && <LoadingAnimation />}
+        </div>
+        <div className={classes.iconContainer} onClick={onLinkClick}>
+          <img
+            className={classes.icon}
+            src={dataIcon}
+            aria-label={"Load preprocessed data"}
+          />
+          <Typography
+            className={classes.moreButton}
+            variant="h6"
+            color="secondary"
+            align="center"
+          >
+            {"Try on our data"}
+          </Typography>
+        </div>
       </div>
-      <div className={classes.iconContainer} onClick={onLinkClick}>
-        <img
-          className={classes.icon}
-          src={dataIcon}
-          aria-label={"Load preprocessed data"}
+      <div className={classes.customTextContainer}>
+        <TextField
+          id="outlined-multiline-flexible"
+          label="Custom text"
+          placeholder="Enter your custom text to get emotions from"
+          className={classes.customTextInput}
+          multiline
+          rows={2}
+          value={value}
+          onChange={handleChange}
+          variant="outlined"
         />
-        <Typography
-          className={classes.moreButton}
-          variant="h6"
-          color="secondary"
-          align="center"
+
+        <Button
+          variant="outlined"
+          color="primary"
+          href="#contained-buttons"
+          onClick={onSubmitText}
+          endIcon={<Icon>send</Icon>}
         >
-          {"Try on our data"}
-        </Typography>
+          Check custom text
+        </Button>
       </div>
     </div>
   );

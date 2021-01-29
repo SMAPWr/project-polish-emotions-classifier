@@ -42,6 +42,13 @@ const useStyles = makeStyles((theme) => ({
     color: "#000",
     fontWeight: 500,
   },
+  textPlaceholder: {
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   progress: {
     position: "absolute",
     left: "45%",
@@ -49,10 +56,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Tweet({ tweetContent = "", tweetId }) {
+export default function Tweet({ tweetId, tweetContent = "", type = "home" }) {
   const classes = useStyles();
   const [loading, setLoading] = useState(true);
-  const onLoad = () => {
+  const onLoad = (data) => {
     setLoading(false);
   };
 
@@ -78,15 +85,23 @@ export default function Tweet({ tweetContent = "", tweetId }) {
       <React.Fragment>
         <Card className={classes.card}>
           <CardContent className={"tweet-content"}>
-            {
+            {tweetId && type !== "customText" && (
               <TwitterTweetEmbed
                 onLoad={onLoad}
                 tweetId={tweetId}
+                placeholder={tweetContent}
                 options={{ maxWidth: 800, cards: "hidden" }}
               />
-            }
+            )}
+            {tweetContent && type === "customText" && (
+              <div className={classes.textPlaceholder}>
+                {"Custom Text:"}
+                <br />
+                {tweetContent}
+              </div>
+            )}
           </CardContent>
-          {loading && (
+          {loading && type !== "customText" && (
             <CircularProgress color="secondary" className={classes.progress} />
           )}
         </Card>

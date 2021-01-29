@@ -44,12 +44,12 @@ const useStyles = makeStyles((theme) => ({
   },
   tweetClass: {
     padding: 0,
-    width: 400
+    width: 400,
   },
   cellResult: {
     borderRight: "1px solid black",
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 }));
 
 export default function TweetTable({ tweets = [], isLoading = false }) {
@@ -68,13 +68,13 @@ export default function TweetTable({ tweets = [], isLoading = false }) {
   };
 
   const handleClickMore = (id) => {
-    const newSelectedTweet = tweets.find(el => el.id === id)
-    setSelectedTweet(newSelectedTweet)
-  }
+    const newSelectedTweet = tweets.find((el) => el.id === id);
+    setSelectedTweet(newSelectedTweet);
+  };
 
   const clearSelectedTweet = () => {
-    setSelectedTweet(null)
-  }
+    setSelectedTweet(null);
+  };
 
   return (
     <React.Fragment>
@@ -101,6 +101,7 @@ export default function TweetTable({ tweets = [], isLoading = false }) {
                     <Tweet
                       tweetContent={row.content}
                       tweetId={"" + row.id.split("/")[3] + ""}
+                      type={row.source}
                     />
                   </TableCell>
                   <TableCell
@@ -110,8 +111,20 @@ export default function TweetTable({ tweets = [], isLoading = false }) {
                       color: row.status === "On Time" ? "green" : "red",
                     }}
                   >
-                    {isLoading && <div>{"Model's API is working"}<br/><CircularProgress color="secondary" /></div>}
-                    {!isLoading && <Result data={row.model1} id={row.id} onClickMore={handleClickMore} />}
+                    {isLoading && (
+                      <div>
+                        {"Model's API is working"}
+                        <br />
+                        <CircularProgress color="secondary" />
+                      </div>
+                    )}
+                    {!isLoading && (
+                      <Result
+                        data={row.model1}
+                        id={row.id}
+                        onClickMore={handleClickMore}
+                      />
+                    )}
                   </TableCell>
                   <TableCell
                     align="right"
@@ -120,8 +133,20 @@ export default function TweetTable({ tweets = [], isLoading = false }) {
                       color: row.status === "On Time" ? "green" : "red",
                     }}
                   >
-                    {isLoading && <div>{"Model's API not available"}<br/><CircularProgress color="secondary" /></div>}
-                    {!isLoading && <Result data={row.model2} id={row.id} onClickMore={handleClickMore} />}
+                    {isLoading && (
+                      <div>
+                        {"Model's API not available"}
+                        <br />
+                        <CircularProgress color="secondary" />
+                      </div>
+                    )}
+                    {!isLoading && (
+                      <Result
+                        data={row.model2}
+                        id={row.id}
+                        onClickMore={handleClickMore}
+                      />
+                    )}
                   </TableCell>
                   <TableCell
                     align="right"
@@ -130,8 +155,20 @@ export default function TweetTable({ tweets = [], isLoading = false }) {
                       color: row.status === "On Time" ? "green" : "red",
                     }}
                   >
-                    {isLoading && <div>{"Model's API not available"}<br/><CircularProgress color="secondary" /></div>}
-                    {!isLoading && <Result data={row.model3} id={row.id} onClickMore={handleClickMore} />}
+                    {isLoading && (
+                      <div>
+                        {"Model's API not available"}
+                        <br />
+                        <CircularProgress color="secondary" />
+                      </div>
+                    )}
+                    {!isLoading && (
+                      <Result
+                        data={row.model3}
+                        id={row.id}
+                        onClickMore={handleClickMore}
+                      />
+                    )}
                   </TableCell>
                 </TableRow>
               ))}
@@ -160,7 +197,11 @@ export default function TweetTable({ tweets = [], isLoading = false }) {
           Please upload file with tweets
         </Typography>
       )}
-      <ResultDialog onClose={clearSelectedTweet} open={selectedTweet != null} tweet={selectedTweet} />
+      <ResultDialog
+        onClose={clearSelectedTweet}
+        open={selectedTweet != null}
+        tweet={selectedTweet}
+      />
     </React.Fragment>
   );
 }
