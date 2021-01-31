@@ -1,5 +1,5 @@
 # POLEMIC 
-**POL**ish **EM**ot**I**ons **C**lassifier [Web application](https://smapwr.github.io/project-polish-emotions-classifier/)
+**POL**ish **EM**ot**I**ons **C**lassifier [(Web application)](https://smapwr.github.io/project-polish-emotions-classifier/)
 
 ![](./images/128x128.png)
 
