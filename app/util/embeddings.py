@@ -1,3 +1,5 @@
+import re
+from itertools import starmap
 from typing import Dict, List
 
 import numpy as np
@@ -20,6 +22,7 @@ class Embedder:
         )
         self.model = self.model.to(self.device)
 
+    @torch.no_grad()
     def calculate_embeddings(
         self,
         texts: List[str],
@@ -31,14 +34,17 @@ class Embedder:
         processed_labels = []
         sentence_embeddings = []
         sequence_embeddings = []
+        texts_len = len(texts)
 
-        texts = [
-            self._replace_emotes_with_text(text, emote_to_text)
-            for text in texts
-        ]
+        texts = starmap(
+            self._replace_emotes_with_text,
+            zip(texts, [emote_to_text] * texts_len)
+        )
+
+        texts = map(self._remove_urls_from_text, texts)
 
         for text, label in tqdm(
-            zip(texts, labels if labels else [None] * len(texts)),
+            zip(texts, labels if labels else [None] * texts_len),
             desc='Encoding texts'
         ):
             try:
@@ -46,18 +52,17 @@ class Embedder:
                     text, return_tensors='pt'
                 ).to(self.device)
 
-                with torch.no_grad():
-                    outputs = self.model(tokenized)
+                outputs = self.model(tokenized)
 
-                    sequence_embedding = outputs[0].squeeze(dim=0).cpu().numpy()
-                    sentence_embedding = outputs[1].squeeze(dim=0).cpu().numpy()
+                sequence_embedding = outputs[0].squeeze(dim=0).cpu().numpy()
+                sentence_embedding = outputs[1].squeeze(dim=0).cpu().numpy()
 
-                    processed_texts.append(text)
-                    sentence_embeddings.append(sentence_embedding)
-                    sequence_embeddings.append(sequence_embedding)
-                    processed_labels.append(label)
+                processed_texts.append(text)
+                sentence_embeddings.append(sentence_embedding)
+                sequence_embeddings.append(sequence_embedding)
+                processed_labels.append(label)
 
-            except Exception:
+            except Exception as ex:
                 pass
 
         return {
@@ -75,4 +80,8 @@ class Embedder:
         for emote, emote_text in emote_to_text.items():
             text = text.replace(emote, emote_text)
 
+        return text
+
+    def _remove_urls_from_text(self, text: str) -> str:
+        text = re.sub(r'\S+://\S+', '', text, flags=re.MULTILINE)
         return text
